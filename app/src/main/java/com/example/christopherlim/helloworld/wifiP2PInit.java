@@ -1,6 +1,5 @@
 package com.example.christopherlim.helloworld;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -10,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class wifiP2PInit extends Activity {
+public class wifiP2PInit extends HomeScreen {
     private final IntentFilter intentFilter = new IntentFilter();
     WifiP2pManager mManager;
     WifiP2pManager.Channel mChannel;
