@@ -21,10 +21,11 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver{
         this.mManager = manager;
         this.mChannel = channel;
         this.mActivity = activity;
+        this.mChannel = channel;
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
         String action = intent.getAction();
 
         if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
@@ -32,10 +33,21 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver{
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
             if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
                 // Wifi P2P is enabled
-                Toast.makeText(context, R.string.okay_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.wifi_enabled, Toast.LENGTH_LONG).show();
+                mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(context, R.string.device_discovered, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(int reasonCode) {
+                        Toast.makeText(context, R.string.no_device_discovered, Toast.LENGTH_LONG).show();
+                    }
+                });
             } else {
                 // Wi-Fi P2P is not enabled
-                Toast.makeText(context, R.string.bad_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.wifi_disabled, Toast.LENGTH_LONG).show();
             }
         } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
             // Call WifiP2pManager.requestPeers() to get a list of current peers
