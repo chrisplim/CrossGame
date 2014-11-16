@@ -18,9 +18,16 @@
         </activity>
         <activity
             android:name=".wifiP2PInit"
-            android:label="@string/title_activity_wifi_p2_pinit" >
+            android:label="@string/title_activity_wifi_p2_pinit"
+            android:parentActivityName=".HomeScreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.christopherlim.helloworld.MyActivity" />
         </activity>
     </application>
+
+
+
 
     <uses-permission
         android:name="android.permission.ACCESS_WIFI_STATE"
