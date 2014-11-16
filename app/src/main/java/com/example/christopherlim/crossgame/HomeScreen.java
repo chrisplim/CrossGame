@@ -1,4 +1,4 @@
-package com.example.christopherlim.helloworld;
+package com.example.christopherlim.crossgame;
 
 import android.app.Activity;
 import android.content.Intent;

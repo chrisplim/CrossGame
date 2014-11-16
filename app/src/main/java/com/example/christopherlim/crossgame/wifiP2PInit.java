@@ -1,4 +1,4 @@
-package com.example.christopherlim.helloworld;
+package com.example.christopherlim.crossgame;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class wifiP2PInit extends HomeScreen {
+
+public class wifiP2PInit extends HomeScreen{
     private final IntentFilter intentFilter = new IntentFilter();
     WifiP2pManager mManager;
     WifiP2pManager.Channel mChannel;
