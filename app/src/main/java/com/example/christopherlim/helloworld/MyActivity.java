@@ -1,9 +1,11 @@
 package com.example.christopherlim.helloworld;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MyActivity extends Activity {
@@ -32,5 +34,12 @@ public class MyActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called when the user clicks the Send button */
+    public void startConnect(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, WifiP2p.class);
+        startActivity(intent);
     }
 }
