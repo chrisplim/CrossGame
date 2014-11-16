@@ -3,11 +3,14 @@ package com.example.christopherlim.crossgame;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pConfig;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.Toast;
 
 
 public class wifiP2PInit extends HomeScreen{
@@ -68,6 +71,51 @@ public class wifiP2PInit extends HomeScreen{
     public void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+    }
+
+
+    public void connect(WifiP2pConfig config) {
+        // Picking the first device found on the network.
+        //WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
+
+        //WifiP2pConfig config = new WifiP2pConfig();
+        //config.deviceAddress = device.deviceAddress;
+        //config.wps.setup = WpsInfo.PBC;
+
+        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+
+            @Override
+            public void onSuccess() {
+                // WiFiDirectBroadcastReceiver will notify us. Ignore for now.
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                Toast.makeText(wifiP2PInit.this, "Connect failed. Retry.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void disconnect() {
+       // final DeviceDetailFragment fragment = (DeviceDetailFragment) getFragmentManager()
+       //         .findFragmentById(R.id.frag_detail);
+        //fragment.resetViews();
+        mManager.removeGroup(mChannel, new ActionListener() {
+
+            @Override
+            public void onFailure(int reasonCode) {
+                //Log.d(TAG, "Disconnect failed. Reason :" + reasonCode);
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+                //fragment.getView().setVisibility(View.GONE);
+                Toast.makeText(wifiP2PInit.this, "successfully connected", Toast.LENGTH_LONG).show();
+            }
+
+        });
     }
 }
 

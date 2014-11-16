@@ -81,26 +81,6 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    public void connect(final Context context) {
-        // Picking the first device found on the network.
-        WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
 
-        WifiP2pConfig config = new WifiP2pConfig();
-        config.deviceAddress = device.deviceAddress;
-        config.wps.setup = WpsInfo.PBC;
-
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-
-            @Override
-            public void onSuccess() {
-                // WiFiDirectBroadcastReceiver will notify us. Ignore for now.
-            }
-
-            @Override
-            public void onFailure(int reason) {
-                Toast.makeText(context, "Connect failed. Retry.", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 
 }
