@@ -12,9 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -32,10 +33,13 @@ public class wifiP2PInit extends HomeScreen{
     static final int SERVER_PORT = 4545;
     private WifiP2pDnsSdServiceRequest serviceRequest;
 
+    private WiFiDirectServicesList deviceList;
+    private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wifi_p2_pinit);
+        setContentView(R.layout.activity_wifi_p2p_init);
 
         //  Indicates a change in the Wi-Fi P2P status.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
@@ -53,12 +57,32 @@ public class wifiP2PInit extends HomeScreen{
         mChannel = mManager.initialize(this, getMainLooper(), null);
 
 
+        /*
+        WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
+            @Override public void onPeersAvailable(WifiP2pDeviceList peerList) {
+                // Out with the old, in with the new.
+                peers.clear();
+                peers.addAll(peerList.getDeviceList());
+                // If an AdapterView is backed by this data, notify it
+                // of the change. For instance, if you have a ListView of available
+                // peers, trigger an update.
+                //((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
+                // if (peers.size() == 0)
+                //{ Log.d(WiFiDirectActivity.TAG, "No devices found");
+                //  return;
+            }};
 
+
+        */
         startRegistrationAndDiscovery();
 
-        receiver = new WiFiBroadcastReceiver(mManager, mChannel, this);
+        deviceList = new WiFiDirectServicesList();
+        getFragmentManager().beginTransaction()
+                .add(R.id.container_root, deviceList, "services").commit();
 
-        /*mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
+        //receiver = new WiFiBroadcastReceiver(mManager, mChannel, this);
+        /*
+        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
                 Toast.makeText(wifiP2PInit.this, R.string.device_discovery, Toast.LENGTH_LONG).show();
@@ -68,8 +92,8 @@ public class wifiP2PInit extends HomeScreen{
             public void onFailure(int reasonCode) {
                 Toast.makeText(wifiP2PInit.this, R.string.device_discovery_fail, Toast.LENGTH_LONG).show();
             }
-        });*/
-
+        });
+        */
 
 
 
@@ -137,10 +161,7 @@ public class wifiP2PInit extends HomeScreen{
 
     private void discoverService() {
 
-        /*
-         * Register listeners for DNS-SD services. These are callbacks invoked
-         * by the system when a service is actually discovered.
-         */
+
 
         mManager.setDnsSdResponseListeners(mChannel,
                 new WifiP2pManager.DnsSdServiceResponseListener() {
@@ -158,13 +179,11 @@ public class wifiP2PInit extends HomeScreen{
                             WiFiDirectServicesList fragment = (WiFiDirectServicesList) getFragmentManager()
                                     .findFragmentByTag("services");
                             if (fragment != null) {
-                                WiFiDevicesAdapter adapter = ((WiFiDevicesAdapter) fragment
+                                WiFiDirectServicesList.WiFiDevicesAdapter adapter = ((WiFiDirectServicesList.WiFiDevicesAdapter) fragment
                                         .getListAdapter());
-                                WiFiP2pService service = new WiFiP2pService();
-                                service.device = srcDevice;
-                                service.instanceName = instanceName;
-                                service.serviceRegistrationType = registrationType;
-                                adapter.add(service);
+                                WifiP2pDevice device = new WifiP2pDevice();
+                                device = srcDevice;
+                                adapter.add(device);
                                 adapter.notifyDataSetChanged();
                                 Log.d(TAG, "onBonjourServiceAvailable "
                                         + instanceName);
@@ -174,11 +193,8 @@ public class wifiP2PInit extends HomeScreen{
                     }
                 }, new WifiP2pManager.DnsSdTxtRecordListener() {
 
-                    /**
-                     * A new TXT record is available. Pick up the advertised
-                     * buddy name.
-                     */
-                    @Override
+
+                  @Override
                     public void onDnsSdTxtRecordAvailable(
                             String fullDomainName, Map<String, String> record,
                             WifiP2pDevice device) {
