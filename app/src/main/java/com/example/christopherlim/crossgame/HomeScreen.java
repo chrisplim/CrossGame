@@ -1,17 +1,19 @@
-package com.example.christopherlim.helloworld;
+package com.example.christopherlim.crossgame;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
-public class MyActivity extends Activity {
+public class HomeScreen extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.activity_home_screen);
     }
 
 
@@ -33,4 +35,12 @@ public class MyActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /** Called when the user clicks the Send button */
+    public void startConnect(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, WiFiDirectActivity.class);
+        startActivity(intent);
+    }
+
 }
