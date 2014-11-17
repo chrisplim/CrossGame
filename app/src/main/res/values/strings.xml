@@ -9,7 +9,7 @@
     <string name="title_activity_home_screen">HomeScreen</string>
     <string name="wifi_enabled">Wifi Enabled</string>
     <string name="wifi_disabled">Wifi Disabled</string>
-    <string name="device_discovered">Discovered Device</string>
-    <string name="no_device_discovered">Device Discovery Failure</string>
+    <string name="device_discovery">Discover Initiated</string>
+    <string name="device_discovery_fail">Discover Initiation Failed</string>
 
 </resources>
