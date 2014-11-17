@@ -1,5 +1,6 @@
 package com.example.christopherlim.crossgame;
 
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -40,7 +41,7 @@ public class wifiP2PInit extends HomeScreen{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_p2p_init);
-
+        statusTxtView = (TextView) findViewById(R.id.status_text);
         //  Indicates a change in the Wi-Fi P2P status.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
 
@@ -122,6 +123,15 @@ public class wifiP2PInit extends HomeScreen{
     }
 
     @Override
+    protected void onRestart() {
+        Fragment frag = getFragmentManager().findFragmentByTag("services");
+        if (frag != null) {
+            getFragmentManager().beginTransaction().remove(frag).commit();
+        }
+        super.onRestart();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         receiver = new WiFiBroadcastReceiver(mManager, mChannel, this);
@@ -133,6 +143,26 @@ public class wifiP2PInit extends HomeScreen{
     public void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
+    }
+
+
+    @Override
+    protected void onStop() {
+        if (mManager != null && mChannel != null) {
+            mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
+
+                @Override
+                public void onFailure(int reasonCode) {
+                    Log.d(TAG, "Disconnect failed. Reason :" + reasonCode);
+                }
+
+                @Override
+                public void onSuccess() {
+                }
+
+            });
+        }
+        super.onStop();
     }
 
 

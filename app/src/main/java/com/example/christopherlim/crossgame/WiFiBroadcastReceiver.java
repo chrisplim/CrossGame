@@ -3,7 +3,6 @@ package com.example.christopherlim.crossgame;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.widget.Toast;
 
@@ -15,7 +14,7 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;
     private wifiP2PInit mActivity;
-    WifiP2pManager.PeerListListener peerListListener;
+    //WifiP2pManager.PeerListListener peerListListener;
 
 
     public WiFiBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel,
@@ -24,7 +23,6 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
         this.mManager = manager;
         this.mChannel = channel;
         this.mActivity = activity;
-        this.mChannel = channel;
     }
 
 
@@ -53,7 +51,7 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
             // callback on PeerListListener.onPeersAvailable()
 
             if (mManager != null) {
-                mManager.requestPeers(mChannel, peerListListener);
+                //mManager.requestPeers(mChannel, peerListListener);
             }
         } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
             // Respond to new connection or disconnections
@@ -61,7 +59,7 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
             // Respond to this device's wifi state changing
         }
     }
-
+/*
     public void connect(final Context context) {
         // Picking the first device found on the network.
          //WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
@@ -106,5 +104,5 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver {
 
         });
     }
-
+*/
 }
