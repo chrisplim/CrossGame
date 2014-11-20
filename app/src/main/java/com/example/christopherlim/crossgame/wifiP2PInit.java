@@ -1,6 +1,7 @@
 package com.example.christopherlim.crossgame;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -39,6 +40,7 @@ public class wifiP2PInit extends HomeScreen{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "in onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_p2p_init);
         statusTxtView = (TextView) findViewById(R.id.status_text);
@@ -75,6 +77,13 @@ public class wifiP2PInit extends HomeScreen{
 
 
         */
+
+        Fragment frag = getFragmentManager().findFragmentByTag("services");
+        if (frag != null) {
+            getFragmentManager().beginTransaction().remove(frag).commit();
+            Log.d(TAG, "inside frag not null. after remove frag");
+        }
+
         startRegistrationAndDiscovery();
 
         deviceList = new WiFiDirectServicesList();
@@ -107,6 +116,7 @@ public class wifiP2PInit extends HomeScreen{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.wifi_p2_pinit, menu);
+        Log.d(TAG, "in onCreateOptionsMenu");
         return true;
     }
 
@@ -115,6 +125,7 @@ public class wifiP2PInit extends HomeScreen{
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Log.d(TAG, "in onOptionsItemSelected");
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -124,23 +135,26 @@ public class wifiP2PInit extends HomeScreen{
 
     @Override
     protected void onRestart() {
+        Log.d(TAG, "in onRestart");
         Fragment frag = getFragmentManager().findFragmentByTag("services");
         if (frag != null) {
             getFragmentManager().beginTransaction().remove(frag).commit();
+            Log.d(TAG, "inside frag not null. after remove frag");
         }
         super.onRestart();
     }
 
     @Override
     public void onResume() {
+        Log.d(TAG, "in onResume");
         super.onResume();
         receiver = new WiFiBroadcastReceiver(mManager, mChannel, this);
         registerReceiver(receiver, intentFilter);
-
     }
 
     @Override
     public void onPause() {
+        Log.d(TAG, "in onPause");
         super.onPause();
         unregisterReceiver(receiver);
     }
@@ -148,6 +162,16 @@ public class wifiP2PInit extends HomeScreen{
 
     @Override
     protected void onStop() {
+        Log.d(TAG, "in onStop");
+        Fragment frag = getFragmentManager().findFragmentByTag("services");
+        Fragment frag2 = null;
+        if (frag != null) {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.remove(frag).commit();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            frag = null;
+            Log.d(TAG, "inside onStop. after remove frag");
+        }
         if (mManager != null && mChannel != null) {
             mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
 
@@ -167,6 +191,7 @@ public class wifiP2PInit extends HomeScreen{
 
 
     private void startRegistrationAndDiscovery() {
+        Log.d(TAG, "in startRegistrationAndDiscovery");
         Map<String, String> record = new HashMap<String, String>();
         record.put("available", "visible");
 
@@ -190,9 +215,7 @@ public class wifiP2PInit extends HomeScreen{
     }
 
     private void discoverService() {
-
-
-
+        Log.d(TAG, "in discoverService");
         mManager.setDnsSdResponseListeners(mChannel,
                 new WifiP2pManager.DnsSdServiceResponseListener() {
 
@@ -208,12 +231,13 @@ public class wifiP2PInit extends HomeScreen{
                             // device.
                             WiFiDirectServicesList fragment = (WiFiDirectServicesList) getFragmentManager()
                                     .findFragmentByTag("services");
+                            Log.d(TAG, "inside discoverService after making wifidirectservicelist fragment");
                             if (fragment != null) {
                                 WiFiDirectServicesList.WiFiDevicesAdapter adapter = ((WiFiDirectServicesList.WiFiDevicesAdapter) fragment
                                         .getListAdapter());
-                                WifiP2pDevice device = new WifiP2pDevice();
-                                device = srcDevice;
-                                adapter.add(device);
+                                Log.d(TAG, "inside discoverService after making adapter");
+                                adapter.add(srcDevice);
+                                Log.d(TAG, "inside discoverService after adding device to adapter");
                                 adapter.notifyDataSetChanged();
                                 Log.d(TAG, "onBonjourServiceAvailable "
                                         + instanceName);
@@ -237,9 +261,9 @@ public class wifiP2PInit extends HomeScreen{
         // After attaching listeners, create a service request and initiate
         // discovery.
         serviceRequest = WifiP2pDnsSdServiceRequest.newInstance();
+        Log.d(TAG, "inside discoverService after making a new serviceRequest");
         mManager.addServiceRequest(mChannel, serviceRequest,
                 new WifiP2pManager.ActionListener() {
-
                     @Override
                     public void onSuccess() {
                         appendStatus("Added service discovery request");

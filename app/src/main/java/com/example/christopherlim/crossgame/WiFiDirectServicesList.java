@@ -4,6 +4,7 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,13 @@ public class WiFiDirectServicesList extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_wifi_p2p_init, container, false);
+        Log.d("Wifi Direct:", "in onCreateView");
+        return inflater.inflate(R.layout.devices_list, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.d("Wifi Direct:", "in onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         listAdapter = new WiFiDevicesAdapter(this.getActivity(),
                 android.R.layout.simple_list_item_2, android.R.id.text1,
@@ -41,11 +44,13 @@ public class WiFiDirectServicesList extends ListFragment {
                                   int textViewResourceId, List<WifiP2pDevice> items) {
             super(context, resource, textViewResourceId, items);
             this.items = items;
+            Log.d("Wifi Direct:", "in WiFiDevicesAdapter constructor");
         }
 
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            Log.d("Wifi Direct:", "in getView");
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater) getActivity()
