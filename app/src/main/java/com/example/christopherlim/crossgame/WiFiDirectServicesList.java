@@ -34,7 +34,6 @@ public class WiFiDirectServicesList extends ListFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.d("Wifi Direct:", "in onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         listAdapter = new WiFiDevicesAdapter(this.getActivity(),
                 android.R.layout.simple_list_item_2, android.R.id.text1,
@@ -59,6 +58,16 @@ public class WiFiDirectServicesList extends ListFragment {
             super(context, resource, textViewResourceId, items);
             this.items = items;
             Log.d("Wifi Direct:", "in WiFiDevicesAdapter constructor");
+        }
+
+      public boolean contains(WifiP2pDevice device)
+        {
+            for(int i = 0; i<items.size(); i++)
+            {
+                if((items.get(i).deviceName).equals(device.deviceName))
+                    return true;
+            }
+            return false;
         }
 
 
