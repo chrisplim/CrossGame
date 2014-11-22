@@ -5,6 +5,8 @@ import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.net.wifi.WpsInfo;
+import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo;
@@ -236,6 +238,7 @@ public class wifiP2PInit extends HomeScreen{
                                 WiFiDirectServicesList.WiFiDevicesAdapter adapter = ((WiFiDirectServicesList.WiFiDevicesAdapter) fragment
                                         .getListAdapter());
                                 Log.d(TAG, "inside discoverService after making adapter");
+                                adapter.clear();
                                 adapter.add(srcDevice);
                                 Log.d(TAG, "inside discoverService after adding device to adapter");
                                 adapter.notifyDataSetChanged();
@@ -285,6 +288,37 @@ public class wifiP2PInit extends HomeScreen{
             public void onFailure(int arg0) {
                 appendStatus("Service discovery failed");
 
+            }
+        });
+    }
+
+    public void connectP2p(WifiP2pDevice device) {
+        WifiP2pConfig config = new WifiP2pConfig();
+        config.deviceAddress = device.deviceAddress;
+        config.wps.setup = WpsInfo.PBC;
+        if (serviceRequest != null)
+            mManager.removeServiceRequest(mChannel, serviceRequest,
+                    new WifiP2pManager.ActionListener() {
+
+                        @Override
+                        public void onSuccess() {
+                        }
+
+                        @Override
+                        public void onFailure(int arg0) {
+                        }
+                    });
+
+        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+
+            @Override
+            public void onSuccess() {
+                appendStatus("Connecting to service");
+            }
+
+            @Override
+            public void onFailure(int errorCode) {
+                appendStatus("Failed connecting to service");
             }
         });
     }

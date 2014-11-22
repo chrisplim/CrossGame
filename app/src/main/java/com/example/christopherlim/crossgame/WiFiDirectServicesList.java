@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ import java.util.List;
  */
 public class WiFiDirectServicesList extends ListFragment {
     WiFiDevicesAdapter listAdapter = null;
+
+    interface DeviceClickListener {
+        public void connectP2p(WifiP2pDevice wifiP2pService);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +40,15 @@ public class WiFiDirectServicesList extends ListFragment {
                 android.R.layout.simple_list_item_2, android.R.id.text1,
                 new ArrayList<WifiP2pDevice>());
         setListAdapter(listAdapter);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        //take this out eventually and make it automatic??
+        ((DeviceClickListener) getActivity()).connectP2p((WifiP2pDevice) l
+                .getItemAtPosition(position));
+        ((TextView) v.findViewById(android.R.id.text2)).setText("Connecting");
+
     }
 
     public class WiFiDevicesAdapter extends ArrayAdapter<WifiP2pDevice> {
