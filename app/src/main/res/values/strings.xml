@@ -3,6 +3,13 @@
 
     <string name="app_name">TestCrossGame</string>
     <string name="hello_world">Hello world!</string>
+    <string name="button_connect">Start Cross Game</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_wifi_p2_pinit">wifiP2PInit</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="wifi_enabled">Wifi Enabled</string>
+    <string name="wifi_disabled">Wifi Disabled</string>
+    <string name="device_discovery">Discover Initiated</string>
+    <string name="device_discovery_fail">Discover Initiation Failed</string>
 
 </resources>
