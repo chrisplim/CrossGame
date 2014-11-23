@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class wifiP2PInit extends HomeScreen{
+public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.DeviceClickListener{
     private final IntentFilter intentFilter = new IntentFilter();
     WifiP2pManager mManager;
     WifiP2pManager.Channel mChannel;
