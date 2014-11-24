@@ -39,7 +39,7 @@
                 android:value="com.example.christopherlim.crossgame.HomeScreen" />
         </activity>
         <activity
-            android:name=".infoInput"
+            android:name=".InfoInput"
             android:label="@string/title_activity_info_input"
             android:parentActivityName=".HomeScreen" >
             <meta-data
@@ -49,10 +49,6 @@
         <activity
             android:name=".DisplayContact"
             android:label="@string/title_activity_display_contact" >
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
         </activity>
     </application>
 

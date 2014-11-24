@@ -45,7 +45,7 @@ public class HomeScreen extends Activity {
     }
 
     public void startInput(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, InfoInput.class);
         startActivity(intent);
     }
 }

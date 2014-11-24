@@ -134,7 +134,7 @@ public class DisplayContact extends Activity {
                             public void onClick(DialogInterface dialog, int id) {
                                 mydb.deleteContact(id_To_Update);
                                 Toast.makeText(getApplicationContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
                                 startActivity(intent);
                             }
                         })
@@ -163,7 +163,7 @@ public class DisplayContact extends Activity {
             if(Value>0){
                 if(mydb.updateContact(id_To_Update,name.getText().toString(), phone.getText().toString(), email.getText().toString(), street.getText().toString(), place.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
                     startActivity(intent);
                 }
                 else{
@@ -177,7 +177,7 @@ public class DisplayContact extends Activity {
                 else{
                     Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
                 startActivity(intent);
             }
         }

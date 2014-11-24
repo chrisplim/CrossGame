@@ -38,9 +38,9 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_CONTACTS_TABLE= "CREATE TABLE contacts ( " +
                 "id INTEGER PRIMARY KEY, " +
                 "name TEXT, " +
-                "phone TEXT " +
-                "email TEXT " +
-                "street TEXT " +
+                "phone TEXT, " +
+                "email TEXT, " +
+                "street TEXT, " +
                 "place TEXT )";
 
         db.execSQL(CREATE_CONTACTS_TABLE);
@@ -100,12 +100,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList getAllContacts()
     {
         ArrayList array_list = new ArrayList();
-        //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from contacts", null );
         res.moveToFirst();
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
+            int cIndex = res.getColumnIndex(CONTACTS_COLUMN_NAME);
+            if(cIndex >=0)
+            {
+                array_list.add(res.getString(cIndex));
+            }
             res.moveToNext();
         }
         return array_list;

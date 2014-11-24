@@ -14,8 +14,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
-    public final static String EXTRA_MESSAGE = "com.example.AddressBook.MESSAGE";
+public class InfoInput extends Activity {
+    //public final static String EXTRA_MESSAGE = "com.example.AddressBook.MESSAGE";
 
     private ListView obj;
     DBHelper mydb;
@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_info_input);
 
         mydb = new DBHelper(this);
         ArrayList array_list = mydb.getAllContacts();
