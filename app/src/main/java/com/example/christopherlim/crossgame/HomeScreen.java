@@ -43,4 +43,9 @@ public class HomeScreen extends Activity {
         Intent intent = new Intent(this, wifiP2PInit.class);
         startActivity(intent);
     }
+
+    public void startInput(View view) {
+        Intent intent = new Intent(this, InfoInput.class);
+        startActivity(intent);
+    }
 }
