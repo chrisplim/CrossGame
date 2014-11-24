@@ -167,6 +167,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
     private void startRegistrationAndDiscovery() {
         Log.d(TAG, "in startRegistrationAndDiscovery");
         Map<String, String> record = new HashMap<String, String>();
+        //String name = db.sqlexec(getname);
         record.put("available", "visible");
         record.put("name", "Sean");
         record.put("sex", "female");

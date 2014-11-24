@@ -3,16 +3,15 @@ package com.example.christopherlim.crossgame;
 /**
  * Created by Grace on 11/23/2014.
  */
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -20,10 +19,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTACTS_TABLE_NAME = "contacts";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "name";
-    public static final String CONTACTS_COLUMN_EMAIL = "email";
-    public static final String CONTACTS_COLUMN_STREET = "street";
-    public static final String CONTACTS_COLUMN_CITY = "place";
-    public static final String CONTACTS_COLUMN_PHONE = "phone";
+    public static final String CONTACTS_COLUMN_AGE = "age";
+    public static final String CONTACTS_COLUMN_GENDER = "gender";
+    public static final String CONTACTS_COLUMN_ORIENTATION = "orientation";
+    //public static final String CONTACTS_COLUMN_EMAIL = "email";
+    //public static final String CONTACTS_COLUMN_STREET = "street";
+    //public static final String CONTACTS_COLUMN_CITY = "place";
+    //public static final String CONTACTS_COLUMN_PHONE = "phone";
 
     private HashMap hp;
 
@@ -38,10 +40,14 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_CONTACTS_TABLE= "CREATE TABLE contacts ( " +
                 "id INTEGER PRIMARY KEY, " +
                 "name TEXT, " +
-                "phone TEXT, " +
-                "email TEXT, " +
-                "street TEXT, " +
-                "place TEXT )";
+                "age TEXT, " +
+                "gender TEXT, " +
+                "orientation TEXT )"
+                //"phone TEXT, " +
+                //"email TEXT, " +
+                //"street TEXT, " +
+                //"place TEXT )";
+                ;
 
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -53,16 +59,19 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertContact  (String name, String phone, String email, String street,String place)
+    public boolean insertContact  (String name, String age, String gender, String orientation)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("name", name);
-        contentValues.put("phone", phone);
-        contentValues.put("email", email);
-        contentValues.put("street", street);
-        contentValues.put("place", place);
+        contentValues.put("age", age);
+        contentValues.put("gender", gender);
+        contentValues.put("orientation", orientation);
+        //contentValues.put("phone", phone);
+        //contentValues.put("email", email);
+        //contentValues.put("street", street);
+        //contentValues.put("place", place);
 
         db.insert("contacts", null, contentValues);
         return true;
@@ -77,15 +86,18 @@ public class DBHelper extends SQLiteOpenHelper {
         int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
         return numRows;
     }
-    public boolean updateContact (Integer id, String name, String phone, String email, String street,String place)
+    public boolean updateContact (Integer id, String name, String age, String gender, String orientation)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
-        contentValues.put("phone", phone);
+        contentValues.put("age", age);
+        contentValues.put("gender", gender);
+        contentValues.put("orientation", orientation);
+        /*contentValues.put("phone", phone);
         contentValues.put("email", email);
         contentValues.put("street", street);
-        contentValues.put("place", place);
+        contentValues.put("place", place);*/
         db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }

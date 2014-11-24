@@ -23,6 +23,9 @@
     <string name="title_activity_main">AddressBook</string>
 
     <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
+    <string name="orientation">Looking for</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="street">Street</string>

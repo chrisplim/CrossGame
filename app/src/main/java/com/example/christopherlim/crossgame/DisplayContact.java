@@ -18,10 +18,13 @@ public class DisplayContact extends Activity {
     int from_Where_I_Am_Coming = 0;
     private DBHelper mydb ;
     TextView name ;
-    TextView phone;
-    TextView email;
-    TextView street;
-    TextView place;
+    TextView age ;
+    TextView gender ;
+    TextView orientation ;
+    //TextView phone;
+    //TextView email;
+    //TextView street;
+    //TextView place;
     int id_To_Update = 0;
 
 
@@ -30,10 +33,13 @@ public class DisplayContact extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact);
         name = (TextView) findViewById(R.id.editTextName);
-        phone = (TextView) findViewById(R.id.editTextPhone);
-        email = (TextView) findViewById(R.id.editTextStreet);
-        street = (TextView) findViewById(R.id.editTextEmail);
-        place = (TextView) findViewById(R.id.editTextCity);
+        age = (TextView) findViewById(R.id.editTextAge);
+        gender = (TextView) findViewById(R.id.editTextGender);
+        orientation = (TextView) findViewById(R.id.editTextOrientation);
+        //phone = (TextView) findViewById(R.id.editTextPhone);
+        //email = (TextView) findViewById(R.id.editTextStreet);
+        //street = (TextView) findViewById(R.id.editTextEmail);
+        //place = (TextView) findViewById(R.id.editTextCity);
 
         mydb = new DBHelper(this);
 
@@ -47,10 +53,10 @@ public class DisplayContact extends Activity {
                 id_To_Update = Value;
                 rs.moveToFirst();
                 String nam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_NAME));
-                String phon = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_PHONE));
-                String emai = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_EMAIL));
-                String stree = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_STREET));
-                String plac = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_CITY));
+                String ag = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_AGE));
+                String gende = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
+                String orientatio = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
+                //String plac = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_CITY));
                 if (!rs.isClosed())
                 {
                     rs.close();
@@ -62,7 +68,19 @@ public class DisplayContact extends Activity {
                 name.setFocusable(false);
                 name.setClickable(false);
 
-                phone.setText((CharSequence)phon);
+                age.setText((CharSequence)ag);
+                age.setFocusable(false);
+                age.setClickable(false);
+
+                gender.setText((CharSequence)gende);
+                gender.setFocusable(false);
+                gender.setClickable(false);
+
+                orientation.setText((CharSequence)orientatio);
+                orientation.setFocusable(false);
+                orientation.setClickable(false);
+
+                /*phone.setText((CharSequence)phon);
                 phone.setFocusable(false);
                 phone.setClickable(false);
 
@@ -76,7 +94,7 @@ public class DisplayContact extends Activity {
 
                 place.setText((CharSequence)plac);
                 place.setFocusable(false);
-                place.setClickable(false);
+                place.setClickable(false);*/
             }
         }
     }
@@ -109,7 +127,19 @@ public class DisplayContact extends Activity {
                 name.setFocusableInTouchMode(true);
                 name.setClickable(true);
 
-                phone.setEnabled(true);
+                age.setEnabled(true);
+                age.setFocusableInTouchMode(true);
+                age.setClickable(true);
+
+                gender.setEnabled(true);
+                gender.setFocusableInTouchMode(true);
+                gender.setClickable(true);
+
+                orientation.setEnabled(true);
+                orientation.setFocusableInTouchMode(true);
+                orientation.setClickable(true);
+
+                /*phone.setEnabled(true);
                 phone.setFocusableInTouchMode(true);
                 phone.setClickable(true);
 
@@ -123,7 +153,7 @@ public class DisplayContact extends Activity {
 
                 place.setEnabled(true);
                 place.setFocusableInTouchMode(true);
-                place.setClickable(true);
+                place.setClickable(true);*/
 
                 return true;
             case R.id.Delete_Contact:
@@ -161,7 +191,7 @@ public class DisplayContact extends Activity {
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(mydb.updateContact(id_To_Update,name.getText().toString(), phone.getText().toString(), email.getText().toString(), street.getText().toString(), place.getText().toString())){
+                if(mydb.updateContact(id_To_Update,name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
                     startActivity(intent);
@@ -171,7 +201,7 @@ public class DisplayContact extends Activity {
                 }
             }
             else{
-                if(mydb.insertContact(name.getText().toString(), phone.getText().toString(), email.getText().toString(), street.getText().toString(), place.getText().toString())){
+                if(mydb.insertContact(name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
                     Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
                 }
                 else{
