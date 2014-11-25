@@ -48,7 +48,11 @@
         </activity>
         <activity
             android:name=".DisplayContact"
-            android:label="@string/title_activity_display_contact" >
+            android:label="@string/title_activity_display_contact"
+            android:parentActivityName=".InfoInput" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.christopherlim.crossgame.InfoInput" />
         </activity>
     </application>
 
