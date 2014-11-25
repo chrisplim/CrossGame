@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -28,7 +29,6 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
     WifiP2pManager mManager;
     WifiP2pManager.Channel mChannel;
     BroadcastReceiver receiver;
-    final HashMap<String, String> connections = new HashMap<String, String>();
 
     public static final String TAG = "Wifi Direct";
     public static final String SERVICE_INSTANCE = "CrossGame";
@@ -40,6 +40,32 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
     private WiFiDirectServicesList deviceList;
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+    private DBHelper mydb;
+    private String gender;
+    private String orientation;
+    class Connection {
+        Connection() {
+            c_gender = "";
+            c_orientation = "";
+        }
+
+        public void setGender(String g) {
+            c_gender = g;
+        }
+        public void setOrientation(String o) {
+            c_orientation = o;
+        }
+        public String getGender() {
+            return c_gender;
+        }
+        public String getOrientation() {
+            return c_orientation;
+        }
+        private String c_gender;
+        private String c_orientation;
+
+    };
+    final HashMap<String, Connection> connections = new HashMap<String, Connection>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +87,8 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
-
+        gender = "";
+        orientation = "";
         startRegistrationAndDiscovery();
 
         deviceList = new WiFiDirectServicesList();
@@ -166,16 +193,29 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
     private void startRegistrationAndDiscovery() {
         Log.d(TAG, "in startRegistrationAndDiscovery");
-        Map<String, String> record = new HashMap<String, String>();
-        //String name = db.sqlexec(getname);
-        record.put("available", "visible");
-        record.put("name", "Sean");
-        record.put("sex", "female");
+        mydb = new DBHelper(this);
+        //ArrayList contacts = mydb.getAllContacts();
+        Map<String, String> ourRecord = new HashMap<String, String>();
+        //Bundle extras = getIntent().getExtras();
+        //if(extras != null) {
+            //int Value = extras.getInt("id");
+           //if(Value > 0) {
+                //String name = db.sqlexec(getname);
+                ourRecord.put("available", "visible");
+               Cursor res = mydb.getData(1);
+                res.moveToFirst();
+                gender = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
+                orientation = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
+                //record.put("name", name);
+                ourRecord.put("gender", gender);
+                ourRecord.put("orientation", orientation);
+            //}
+        //}
 
 
        WifiP2pDnsSdServiceInfo
                 service = WifiP2pDnsSdServiceInfo.newInstance(
-                SERVICE_INSTANCE, SERVICE_REG_TYPE, record);
+                SERVICE_INSTANCE, SERVICE_REG_TYPE, ourRecord);
         mManager.addLocalService(mChannel, service, new WifiP2pManager.ActionListener() {
 
             @Override
@@ -216,8 +256,11 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                                         .getListAdapter());
                                 Log.d(TAG, "inside discoverService after making adapter");
                                 //adapter.clear();, filter by global hashmap
-                                if(!adapter.contains(srcDevice) && connections.get(srcDevice.deviceAddress) != null) {
-                                    if(!connections.get(srcDevice.deviceAddress).equals("male")) {
+                                Connection temp_connection = connections.get(srcDevice.deviceAddress);
+                                if(!adapter.contains(srcDevice) && temp_connection != null) {
+                                   if(temp_connection.getGender().equals(orientation) && temp_connection.getOrientation().equals(gender)) {
+                                        //String poopy = temp_connection.getGender();
+                                        //String poopier = temp_connection.getOrientation();
                                         adapter.add(srcDevice);
                                         Log.d(TAG, "inside discoverService after adding device to adapter");
                                         adapter.notifyDataSetChanged();
@@ -240,7 +283,10 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                                 device.deviceName + " is "
                                         + record.get("available"));
                      //add to global hashmap
-                      connections.put(device.deviceAddress, record.get("sex"));
+                      Connection c = new Connection();
+                      c.setGender(record.get("gender"));
+                      c.setOrientation(record.get("orientation"));
+                      connections.put(device.deviceAddress, c);
 
                     }
                 });

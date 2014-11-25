@@ -106,7 +106,7 @@
             android:layout_alignLeft="@+id/editTextGender"
             android:layout_below="@+id/editTextName"
             android:ems="10"
-            android:inputType="text" />
+            android:inputType="number" />
 
     </RelativeLayout>
 </ScrollView>
