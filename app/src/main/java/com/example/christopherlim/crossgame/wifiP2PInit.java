@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +40,32 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
     private WiFiDirectServicesList deviceList;
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+    private DBHelper mydb;
+    private String gender;
+    private String orientation;
+    class Connection {
+        Connection() {
+            c_gender = "";
+            c_orientation = "";
+        }
+
+        public void setGender(String g) {
+            c_gender = g;
+        }
+        public void setOrientation(String o) {
+            c_orientation = o;
+        }
+        public String getGender() {
+            return c_gender;
+        }
+        public String getOrientation() {
+            return c_orientation;
+        }
+        private String c_gender;
+        private String c_orientation;
+
+    };
+    final HashMap<String, Connection> connections = new HashMap<String, Connection>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,52 +87,15 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
-
-
-        /*
-        WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
-            @Override public void onPeersAvailable(WifiP2pDeviceList peerList) {
-                // Out with the old, in with the new.
-                peers.clear();
-                peers.addAll(peerList.getDeviceList());
-                // If an AdapterView is backed by this data, notify it
-                // of the change. For instance, if you have a ListView of available
-                // peers, trigger an update.
-                //((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
-                // if (peers.size() == 0)
-                //{ Log.d(WiFiDirectActivity.TAG, "No devices found");
-                //  return;
-            }};
-
-
-        */
-
+        gender = "";
+        orientation = "";
         startRegistrationAndDiscovery();
 
         deviceList = new WiFiDirectServicesList();
         getFragmentManager().beginTransaction()
                 .add(R.id.container_root, deviceList, "services").commit();
 
-        //receiver = new WiFiBroadcastReceiver(mManager, mChannel, this);
-        /*
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(wifiP2PInit.this, R.string.device_discovery, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(int reasonCode) {
-                Toast.makeText(wifiP2PInit.this, R.string.device_discovery_fail, Toast.LENGTH_LONG).show();
-            }
-        });
-        */
-
-
-
-
-
-    }
+           }
 
 
     @Override
@@ -191,6 +182,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
                 @Override
                 public void onSuccess() {
+                    Toast.makeText(wifiP2PInit.this, "Disconnected", Toast.LENGTH_LONG).show();
                 }
 
             });
@@ -201,11 +193,29 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
     private void startRegistrationAndDiscovery() {
         Log.d(TAG, "in startRegistrationAndDiscovery");
-        Map<String, String> record = new HashMap<String, String>();
-        record.put("available", "visible");
+        mydb = new DBHelper(this);
+        //ArrayList contacts = mydb.getAllContacts();
+        Map<String, String> ourRecord = new HashMap<String, String>();
+        //Bundle extras = getIntent().getExtras();
+        //if(extras != null) {
+            //int Value = extras.getInt("id");
+           //if(Value > 0) {
+                //String name = db.sqlexec(getname);
+                ourRecord.put("available", "visible");
+               Cursor res = mydb.getData(1);
+                res.moveToFirst();
+                gender = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
+                orientation = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
+                //record.put("name", name);
+                ourRecord.put("gender", gender);
+                ourRecord.put("orientation", orientation);
+            //}
+        //}
 
-        WifiP2pDnsSdServiceInfo service = WifiP2pDnsSdServiceInfo.newInstance(
-                SERVICE_INSTANCE, SERVICE_REG_TYPE, record);
+
+       WifiP2pDnsSdServiceInfo
+                service = WifiP2pDnsSdServiceInfo.newInstance(
+                SERVICE_INSTANCE, SERVICE_REG_TYPE, ourRecord);
         mManager.addLocalService(mChannel, service, new WifiP2pManager.ActionListener() {
 
             @Override
@@ -245,13 +255,18 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                                 WiFiDirectServicesList.WiFiDevicesAdapter adapter = ((WiFiDirectServicesList.WiFiDevicesAdapter) fragment
                                         .getListAdapter());
                                 Log.d(TAG, "inside discoverService after making adapter");
-                                //adapter.clear();
-                                if(!adapter.contains(srcDevice)) {
-                                    adapter.add(srcDevice);
-                                    Log.d(TAG, "inside discoverService after adding device to adapter");
-                                    adapter.notifyDataSetChanged();
-                                    Log.d(TAG, "onBonjourServiceAvailable "
-                                            + instanceName);
+                                //adapter.clear();, filter by global hashmap
+                                Connection temp_connection = connections.get(srcDevice.deviceAddress);
+                                if(!adapter.contains(srcDevice) && temp_connection != null) {
+                                   if(temp_connection.getGender().equals(orientation) && temp_connection.getOrientation().equals(gender)) {
+                                        //String poopy = temp_connection.getGender();
+                                        //String poopier = temp_connection.getOrientation();
+                                        adapter.add(srcDevice);
+                                        Log.d(TAG, "inside discoverService after adding device to adapter");
+                                        adapter.notifyDataSetChanged();
+                                        Log.d(TAG, "onBonjourServiceAvailable "
+                                                + instanceName);
+                                    }
                                 }
                             }
                         }
@@ -267,6 +282,12 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                         Log.d(TAG,
                                 device.deviceName + " is "
                                         + record.get("available"));
+                     //add to global hashmap
+                      Connection c = new Connection();
+                      c.setGender(record.get("gender"));
+                      c.setOrientation(record.get("orientation"));
+                      connections.put(device.deviceAddress, c);
+
                     }
                 });
 
