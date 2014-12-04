@@ -15,7 +15,7 @@
         >
 
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextOrientation"
@@ -26,23 +26,43 @@
         </EditText>
 
         <EditText
+            android:id="@+id/editTextFirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextOrientation"
+            android:layout_below="@+id/editTextLastName"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:inputType="text" >
+        </EditText>
+
+        <EditText
             android:id="@+id/editTextOrientation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/editTextGender"
+            android:layout_below="@+id/gender_spinner"
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/textName"
+            android:id="@+id/textLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editTextName"
+            android:layout_alignBottom="@+id/editTextLastName"
             android:layout_alignLeft="@+id/textOrientation"
-            android:text="@string/name"
+            android:text="@string/lastname"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textFirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editTextFirstName"
+            android:layout_alignLeft="@+id/textOrientation"
+            android:text="@string/firstname"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
@@ -51,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextOrientation"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/editTextTagLine"
             android:layout_marginBottom="28dp"
             android:onClick="run"
             android:text="@string/save" />
@@ -70,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/editTextAge"
-            android:layout_alignLeft="@+id/textName"
+            android:layout_alignLeft="@+id/textFirstName"
             android:text="@string/age"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -79,34 +100,82 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/editTextOrientation"
+            android:layout_alignBottom="@+id/gender_spinner"
             android:layout_alignLeft="@+id/textAge"
             android:text="@string/gender"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-
-
-
-
-
+        <Spinner
+            android:id="@+id/gender_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editTextLastName"
+            android:layout_below="@+id/editTextAge"
+            android:prompt="@string/spinner_prompt" />
+<!--
         <EditText
             android:id="@+id/editTextGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextName"
+            android:layout_alignLeft="@+id/editTextLastName"
             android:layout_below="@+id/editTextAge"
             android:ems="10"
             android:inputType="text" >
 
         </EditText>
+        -->
 
         <EditText
             android:id="@+id/editTextAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextGender"
-            android:layout_below="@+id/editTextName"
+            android:layout_alignLeft="@+id/gender_spinner"
+            android:layout_below="@+id/editTextFirstName"
             android:ems="10"
             android:inputType="number" />
+
+        <EditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editTextOrientation"
+            android:layout_marginTop="22dp"
+            android:layout_marginLeft="100dp"
+            android:ems="10"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editTextTagLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editTextPhoneNumber"
+            android:layout_marginTop="22dp"
+            android:layout_marginLeft="100dp"
+            android:ems="10"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editTextPhoneNumber"
+            android:layout_alignParentLeft="true"
+
+            android:text="@string/phonenumber"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/textTagLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editTextTagLine"
+            android:layout_alignParentLeft="true"
+
+            android:text="@string/tagline"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
 </ScrollView>
