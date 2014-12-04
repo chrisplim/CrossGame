@@ -1,30 +1,40 @@
 package com.example.christopherlim.crossgame;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DisplayContact extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DisplayContact extends Activity implements AdapterView.OnItemSelectedListener{
 
     int from_Where_I_Am_Coming = 0;
     private DBHelper mydb ;
-    TextView name ;
+    TextView lastname ;
+    TextView firstname ;
     TextView age ;
     TextView gender ;
+    String gend;
     TextView orientation ;
-    //TextView phone;
-    //TextView email;
-    //TextView street;
-    //TextView place;
+    TextView phonenumber ;
+    TextView tagline ;
+    Spinner spinner;
+
+
+
     int id_To_Update = 0;
 
 
@@ -32,14 +42,15 @@ public class DisplayContact extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact);
-        name = (TextView) findViewById(R.id.editTextName);
+        lastname = (TextView) findViewById(R.id.editTextLastName);
+        firstname = (TextView) findViewById(R.id.editTextFirstName);
         age = (TextView) findViewById(R.id.editTextAge);
-        gender = (TextView) findViewById(R.id.editTextGender);
+        //gender =  (TextView) findViewById(R.id.gender_spinner);
+        // Spinner element
+        spinner = (Spinner) findViewById(R.id.gender_spinner);
         orientation = (TextView) findViewById(R.id.editTextOrientation);
-        //phone = (TextView) findViewById(R.id.editTextPhone);
-        //email = (TextView) findViewById(R.id.editTextStreet);
-        //street = (TextView) findViewById(R.id.editTextEmail);
-        //place = (TextView) findViewById(R.id.editTextCity);
+        phonenumber = (TextView) findViewById(R.id.editTextPhoneNumber);
+        tagline = (TextView) findViewById(R.id.editTextTagLine);
 
         mydb = new DBHelper(this);
 
@@ -52,11 +63,14 @@ public class DisplayContact extends Activity {
                 Cursor rs = mydb.getData(Value);
                 id_To_Update = Value;
                 rs.moveToFirst();
-                String nam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_NAME));
+                String lastnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_LASTNAME));
+                String firstnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_FIRSTNAME));
                 String ag = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_AGE));
                 String gende = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
                 String orientatio = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
-                //String plac = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_CITY));
+                String phonenumbe = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_PHONENUMBER));
+                String taglin = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_TAGLINE));
+
                 if (!rs.isClosed())
                 {
                     rs.close();
@@ -64,40 +78,74 @@ public class DisplayContact extends Activity {
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.INVISIBLE);
 
-                name.setText((CharSequence)nam);
-                name.setFocusable(false);
-                name.setClickable(false);
+                lastname.setText((CharSequence)lastnam);
+                lastname.setFocusable(false);
+                lastname.setClickable(false);
+
+                firstname.setText((CharSequence)firstnam);
+                firstname.setFocusable(false);
+                firstname.setClickable(false);
 
                 age.setText((CharSequence)ag);
                 age.setFocusable(false);
                 age.setClickable(false);
 
-                gender.setText((CharSequence)gende);
-                gender.setFocusable(false);
-                gender.setClickable(false);
+                //gender.setText((CharSequence)gende);
+                spinner.setFocusable(false);
+                spinner.setClickable(false);
 
                 orientation.setText((CharSequence)orientatio);
                 orientation.setFocusable(false);
                 orientation.setClickable(false);
 
-                /*phone.setText((CharSequence)phon);
-                phone.setFocusable(false);
-                phone.setClickable(false);
+                phonenumber.setText((CharSequence) phonenumbe);
+                phonenumber.setFocusable(false);
+                phonenumber.setClickable(false);
 
-                email.setText((CharSequence)emai);
-                email.setFocusable(false);
-                email.setClickable(false);
-
-                street.setText((CharSequence)stree);
-                street.setFocusable(false);
-                street.setClickable(false);
-
-                place.setText((CharSequence)plac);
-                place.setFocusable(false);
-                place.setClickable(false);*/
+                tagline.setText((CharSequence)taglin);
+                tagline.setFocusable(false);
+                tagline.setClickable(false);
             }
         }
+
+        // Spinner element
+       // Spinner spinner = (Spinner) findViewById(R.id.gender_spinner);
+
+        // Spinner click listener
+        spinner.setOnItemSelectedListener(this);
+
+        // Spinner Drop down elements
+        List <String> choices = new ArrayList < java.lang.String >();
+        choices.add("male");
+        choices.add("female");
+
+        // Creating adapter for spinner
+        ArrayAdapter <String> dataAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_spinner_item, choices);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
     }
+
+    @Override
+    public void onItemSelected(AdapterView <?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        String item = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+        gend = item;
+        boolean animate = false;
+        spinner.setSelection(position, animate);
+    }
+
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+        gend = "male";
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -123,37 +171,37 @@ public class DisplayContact extends Activity {
             case R.id.Edit_Contact:
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.VISIBLE);
-                name.setEnabled(true);
-                name.setFocusableInTouchMode(true);
-                name.setClickable(true);
+                lastname.setEnabled(true);
+                lastname.setFocusableInTouchMode(true);
+                lastname.setClickable(true);
+
+                firstname.setEnabled(true);
+                firstname.setFocusableInTouchMode(true);
+                firstname.setClickable(true);
 
                 age.setEnabled(true);
                 age.setFocusableInTouchMode(true);
                 age.setClickable(true);
 
-                gender.setEnabled(true);
+                /*gender.setEnabled(true);
                 gender.setFocusableInTouchMode(true);
-                gender.setClickable(true);
+                gender.setClickable(true);*/
+
+                spinner.setEnabled(true);
+                spinner.setFocusableInTouchMode(true);
+                spinner.setClickable(true);
 
                 orientation.setEnabled(true);
                 orientation.setFocusableInTouchMode(true);
                 orientation.setClickable(true);
 
-                /*phone.setEnabled(true);
-                phone.setFocusableInTouchMode(true);
-                phone.setClickable(true);
+                phonenumber.setEnabled(true);
+                phonenumber.setFocusableInTouchMode(true);
+                phonenumber.setClickable(true);
 
-                email.setEnabled(true);
-                email.setFocusableInTouchMode(true);
-                email.setClickable(true);
-
-                street.setEnabled(true);
-                street.setFocusableInTouchMode(true);
-                street.setClickable(true);
-
-                place.setEnabled(true);
-                place.setFocusableInTouchMode(true);
-                place.setClickable(true);*/
+                tagline.setEnabled(true);
+                tagline.setFocusableInTouchMode(true);
+                tagline.setClickable(true);
 
                 return true;
             case R.id.Delete_Contact:
@@ -191,7 +239,7 @@ public class DisplayContact extends Activity {
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(mydb.updateContact(id_To_Update,name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
+                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gend, orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -199,7 +247,7 @@ public class DisplayContact extends Activity {
                 }
             }
             else{
-                if(mydb.insertContact(name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
+                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gend, orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
                 }
                 else{
