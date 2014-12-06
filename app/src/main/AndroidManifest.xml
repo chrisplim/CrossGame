@@ -33,10 +33,10 @@
         <activity
             android:name=".wifiP2PInit"
             android:label="@string/title_activity_wifi_p2_pinit"
-            android:parentActivityName=".HomeScreen" >
+            android:parentActivityName=".StartConnect" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.christopherlim.crossgame.HomeScreen" />
+                android:value="com.example.christopherlim.crossgame.StartConnect" />
         </activity>
         <activity
             android:name=".InfoInput"
@@ -49,10 +49,14 @@
         <activity
             android:name=".DisplayContact"
             android:label="@string/title_activity_display_contact"
-            android:parentActivityName=".InfoInput" >
+            android:parentActivityName=".HomeScreen" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.christopherlim.crossgame.InfoInput" />
+                android:value="com.example.christopherlim.crossgame.HomeScreen" />
+        </activity>
+        <activity
+            android:name=".StartConnect"
+            android:label="@string/title_activity_start_connect" >
         </activity>
     </application>
 

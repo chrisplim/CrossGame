@@ -193,8 +193,6 @@ public class DisplayContact extends Activity {
             if(Value>0){
                 if(mydb.updateContact(id_To_Update,name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
-                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
@@ -207,7 +205,8 @@ public class DisplayContact extends Activity {
                 else{
                     Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
+                //Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
+                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.StartConnect.class);
                 startActivity(intent);
             }
         }
