@@ -19,18 +19,26 @@
     <string name="delete">Delete Contact</string>
     <string name="title_activity_display_contact">DisplayContact</string>
     <string name="title_activity_main">AddressBook</string>
-    <string name="name">Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="firstname">First Name</string>
     <string name="age">Age</string>
     <string name="gender">Gender</string>
     <string name="orientation">Looking for</string>
+    <string name="phonenumber">Phone #</string>
+    <string name="tagline">Tagline</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="street">Street</string>
     <string name="country">City/State/Zip</string>
+    <string name="spinner_prompt">Select Gender</string>
     <string name="save">Save Contact</string>
     <string name="deleteContact">Are you sure, you want to delete it.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="title_activity_start_connect">StartConnect</string>
+    <string name="radio_male1">male</string>
+    <string name="radio_female1">female</string>
+    <string name="radio_male2">male</string>
+    <string name="radio_female2">female</string>
 
 </resources>

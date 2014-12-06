@@ -1,30 +1,37 @@
 package com.example.christopherlim.crossgame;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DisplayContact extends Activity {
+
+public class DisplayContact extends Activity{
 
     int from_Where_I_Am_Coming = 0;
     private DBHelper mydb ;
-    TextView name ;
+    TextView lastname ;
+    TextView firstname ;
     TextView age ;
-    TextView gender ;
-    TextView orientation ;
-    //TextView phone;
-    //TextView email;
-    //TextView street;
-    //TextView place;
+    String gender ;
+    String orientation ;
+    TextView phonenumber ;
+    TextView tagline ;
+    RadioGroup radioSexGroup;
+    RadioButton radioSexButton;
+    RadioGroup radioOrientationGroup;
+    RadioButton radioOrientationButton;
+
     int id_To_Update = 0;
 
 
@@ -32,14 +39,13 @@ public class DisplayContact extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact);
-        name = (TextView) findViewById(R.id.editTextName);
+        lastname = (TextView) findViewById(R.id.editTextLastName);
+        firstname = (TextView) findViewById(R.id.editTextFirstName);
         age = (TextView) findViewById(R.id.editTextAge);
-        gender = (TextView) findViewById(R.id.editTextGender);
-        orientation = (TextView) findViewById(R.id.editTextOrientation);
-        //phone = (TextView) findViewById(R.id.editTextPhone);
-        //email = (TextView) findViewById(R.id.editTextStreet);
-        //street = (TextView) findViewById(R.id.editTextEmail);
-        //place = (TextView) findViewById(R.id.editTextCity);
+        radioSexGroup= (RadioGroup) findViewById(R.id.radioSex);
+        radioOrientationGroup= (RadioGroup) findViewById(R.id.radioOrientation);
+        phonenumber = (TextView) findViewById(R.id.editTextPhoneNumber);
+        tagline = (TextView) findViewById(R.id.editTextTagLine);
 
         mydb = new DBHelper(this);
 
@@ -52,11 +58,14 @@ public class DisplayContact extends Activity {
                 Cursor rs = mydb.getData(Value);
                 id_To_Update = Value;
                 rs.moveToFirst();
-                String nam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_NAME));
+                String lastnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_LASTNAME));
+                String firstnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_FIRSTNAME));
                 String ag = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_AGE));
                 String gende = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
                 String orientatio = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
-                //String plac = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_CITY));
+                String phonenumbe = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_PHONENUMBER));
+                String taglin = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_TAGLINE));
+
                 if (!rs.isClosed())
                 {
                     rs.close();
@@ -64,40 +73,72 @@ public class DisplayContact extends Activity {
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.INVISIBLE);
 
-                name.setText((CharSequence)nam);
-                name.setFocusable(false);
-                name.setClickable(false);
+                lastname.setText((CharSequence)lastnam);
+                lastname.setFocusable(false);
+                lastname.setClickable(false);
+
+                firstname.setText((CharSequence)firstnam);
+                firstname.setFocusable(false);
+                firstname.setClickable(false);
 
                 age.setText((CharSequence)ag);
                 age.setFocusable(false);
                 age.setClickable(false);
 
-                gender.setText((CharSequence)gende);
-                gender.setFocusable(false);
-                gender.setClickable(false);
+                radioSexGroup.setFocusable(false);
+                radioSexGroup.setClickable(false);
 
-                orientation.setText((CharSequence)orientatio);
-                orientation.setFocusable(false);
-                orientation.setClickable(false);
+                radioOrientationGroup.setFocusable(false);
+                radioOrientationGroup.setClickable(false);
 
-                /*phone.setText((CharSequence)phon);
-                phone.setFocusable(false);
-                phone.setClickable(false);
+                phonenumber.setText((CharSequence) phonenumbe);
+                phonenumber.setFocusable(false);
+                phonenumber.setClickable(false);
 
-                email.setText((CharSequence)emai);
-                email.setFocusable(false);
-                email.setClickable(false);
-
-                street.setText((CharSequence)stree);
-                street.setFocusable(false);
-                street.setClickable(false);
-
-                place.setText((CharSequence)plac);
-                place.setFocusable(false);
-                place.setClickable(false);*/
+                tagline.setText((CharSequence)taglin);
+                tagline.setFocusable(false);
+                tagline.setClickable(false);
             }
         }
+
+        addListenerOnButton_g();
+        addListenerOnButton_o();
     }
+
+    public void addListenerOnButton_g() {
+
+        //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        int selectedId = radioSexGroup.getCheckedRadioButtonId();
+        radioSexButton = (RadioButton) findViewById(selectedId);
+        gender = (String) radioSexButton.getText();
+        radioSexGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                radioSexButton = (RadioButton) findViewById(checkedId);
+                gender = (String) radioSexButton.getText();
+            }
+        });
+    }
+
+    public void addListenerOnButton_o() {
+
+        //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        int selectedId = radioOrientationGroup.getCheckedRadioButtonId();
+        radioOrientationButton = (RadioButton) findViewById(selectedId);
+        orientation = (String) radioOrientationButton.getText();
+        radioOrientationGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                radioOrientationButton = (RadioButton) findViewById(checkedId);
+                orientation = (String) radioOrientationButton.getText();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -123,37 +164,33 @@ public class DisplayContact extends Activity {
             case R.id.Edit_Contact:
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.VISIBLE);
-                name.setEnabled(true);
-                name.setFocusableInTouchMode(true);
-                name.setClickable(true);
+                lastname.setEnabled(true);
+                lastname.setFocusableInTouchMode(true);
+                lastname.setClickable(true);
+
+                firstname.setEnabled(true);
+                firstname.setFocusableInTouchMode(true);
+                firstname.setClickable(true);
 
                 age.setEnabled(true);
                 age.setFocusableInTouchMode(true);
                 age.setClickable(true);
 
-                gender.setEnabled(true);
-                gender.setFocusableInTouchMode(true);
-                gender.setClickable(true);
+                radioSexGroup.setEnabled(true);
+                radioSexGroup.setFocusableInTouchMode(true);
+                radioSexGroup.setClickable(false);
 
-                orientation.setEnabled(true);
-                orientation.setFocusableInTouchMode(true);
-                orientation.setClickable(true);
+                radioOrientationGroup.setEnabled(true);
+                radioOrientationGroup.setFocusableInTouchMode(true);
+                radioOrientationGroup.setClickable(false);
 
-                /*phone.setEnabled(true);
-                phone.setFocusableInTouchMode(true);
-                phone.setClickable(true);
+                phonenumber.setEnabled(true);
+                phonenumber.setFocusableInTouchMode(true);
+                phonenumber.setClickable(true);
 
-                email.setEnabled(true);
-                email.setFocusableInTouchMode(true);
-                email.setClickable(true);
-
-                street.setEnabled(true);
-                street.setFocusableInTouchMode(true);
-                street.setClickable(true);
-
-                place.setEnabled(true);
-                place.setFocusableInTouchMode(true);
-                place.setClickable(true);*/
+                tagline.setEnabled(true);
+                tagline.setFocusableInTouchMode(true);
+                tagline.setClickable(true);
 
                 return true;
             case R.id.Delete_Contact:
@@ -191,7 +228,8 @@ public class DisplayContact extends Activity {
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(mydb.updateContact(id_To_Update,name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
+                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
+
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -199,7 +237,7 @@ public class DisplayContact extends Activity {
                 }
             }
             else{
-                if(mydb.insertContact(name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
+                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
                 }
                 else{
