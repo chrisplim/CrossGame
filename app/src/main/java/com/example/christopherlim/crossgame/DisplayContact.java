@@ -22,6 +22,8 @@ public class DisplayContact extends Activity{
     private DBHelper mydb ;
     TextView lastname ;
     TextView firstname ;
+    private RDSHelper myRDS;
+
     TextView age ;
     String gender ;
     String orientation ;
@@ -48,7 +50,7 @@ public class DisplayContact extends Activity{
         tagline = (TextView) findViewById(R.id.editTextTagLine);
 
         mydb = new DBHelper(this);
-
+        myRDS = new RDSHelper(this);
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
         {
@@ -228,13 +230,15 @@ public class DisplayContact extends Activity{
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
 
+                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
             else{
                 if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
