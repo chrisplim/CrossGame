@@ -27,11 +27,12 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
     TextView firstname ;
     TextView age ;
     TextView gender ;
-    String gend;
     TextView orientation ;
     TextView phonenumber ;
     TextView tagline ;
     Spinner spinner;
+    ArrayAdapter <String> dataAdapter;
+    List <String> choices;
 
 
 
@@ -45,7 +46,7 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
         lastname = (TextView) findViewById(R.id.editTextLastName);
         firstname = (TextView) findViewById(R.id.editTextFirstName);
         age = (TextView) findViewById(R.id.editTextAge);
-        //gender =  (TextView) findViewById(R.id.gender_spinner);
+        gender =  (TextView) findViewById(R.id.editTextGender);
         // Spinner element
         spinner = (Spinner) findViewById(R.id.gender_spinner);
         orientation = (TextView) findViewById(R.id.editTextOrientation);
@@ -90,7 +91,10 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
                 age.setFocusable(false);
                 age.setClickable(false);
 
-                //gender.setText((CharSequence)gende);
+                gender.setText((CharSequence)gende);
+                gender.setFocusable(false);
+                gender.setClickable(false);
+
                 spinner.setFocusable(false);
                 spinner.setClickable(false);
 
@@ -115,12 +119,12 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
         spinner.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
-        List <String> choices = new ArrayList < java.lang.String >();
+        choices = new ArrayList < java.lang.String >();
         choices.add("male");
         choices.add("female");
 
         // Creating adapter for spinner
-        ArrayAdapter <String> dataAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_spinner_item, choices);
+        dataAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_spinner_item, choices);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -136,14 +140,20 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
 
         // Showing selected spinner item
         //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-        gend = item;
-        boolean animate = false;
-        spinner.setSelection(position, animate);
+        if(item.equals("female") && gender.getText().toString().equals("male")){
+            gender.setText("female");
+        }
+        if(item.equals("male") && !gender.getText().toString().equals("female")) {
+            gender.setText("male");
+        }
+        //boolean animate = false;
+        //spinner.setSelection(position, animate);
+        //spinner.setAdapter(dataAdapter);
     }
 
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
-        gend = "male";
+        //gender.setText(0);
     }
 
     @Override
@@ -183,9 +193,9 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
                 age.setFocusableInTouchMode(true);
                 age.setClickable(true);
 
-                /*gender.setEnabled(true);
-                gender.setFocusableInTouchMode(true);
-                gender.setClickable(true);*/
+                gender.setEnabled(false);
+                gender.setFocusableInTouchMode(false);
+                gender.setClickable(false);
 
                 spinner.setEnabled(true);
                 spinner.setFocusableInTouchMode(true);
@@ -239,7 +249,7 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gend, orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
+                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -247,7 +257,7 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
                 }
             }
             else{
-                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gend, orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
+                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
                 }
                 else{

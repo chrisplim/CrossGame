@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/gender_spinner"
+            android:layout_below="@+id/editTextGender"
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"
@@ -112,18 +112,17 @@
             android:layout_alignLeft="@+id/editTextLastName"
             android:layout_below="@+id/editTextAge"
             android:prompt="@string/spinner_prompt" />
-<!--
+
         <EditText
             android:id="@+id/editTextGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextLastName"
-            android:layout_below="@+id/editTextAge"
+            android:layout_below="@+id/gender_spinner"
             android:ems="10"
             android:inputType="text" >
 
         </EditText>
-        -->
 
         <EditText
             android:id="@+id/editTextAge"
@@ -143,7 +142,7 @@
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"
-            android:inputType="text" />
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/editTextTagLine"
