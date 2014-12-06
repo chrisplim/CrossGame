@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class DisplayContact extends Activity{
 
     int from_Where_I_Am_Coming = 0;
@@ -228,6 +229,7 @@ public class DisplayContact extends Activity{
             int Value = extras.getInt("id");
             if(Value>0){
                 if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
+
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                 }
                 else{
