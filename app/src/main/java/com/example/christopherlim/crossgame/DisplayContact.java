@@ -9,32 +9,27 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class DisplayContact extends Activity implements AdapterView.OnItemSelectedListener{
+public class DisplayContact extends Activity{
 
     int from_Where_I_Am_Coming = 0;
     private DBHelper mydb ;
     TextView lastname ;
     TextView firstname ;
     TextView age ;
-    TextView gender ;
-    TextView orientation ;
+    String gender ;
+    String orientation ;
     TextView phonenumber ;
     TextView tagline ;
-    Spinner spinner;
-    ArrayAdapter <String> dataAdapter;
-    List <String> choices;
-
-
+    RadioGroup radioSexGroup;
+    RadioButton radioSexButton;
+    RadioGroup radioOrientationGroup;
+    RadioButton radioOrientationButton;
 
     int id_To_Update = 0;
 
@@ -46,10 +41,8 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
         lastname = (TextView) findViewById(R.id.editTextLastName);
         firstname = (TextView) findViewById(R.id.editTextFirstName);
         age = (TextView) findViewById(R.id.editTextAge);
-        gender =  (TextView) findViewById(R.id.editTextGender);
-        // Spinner element
-        spinner = (Spinner) findViewById(R.id.gender_spinner);
-        orientation = (TextView) findViewById(R.id.editTextOrientation);
+        radioSexGroup= (RadioGroup) findViewById(R.id.radioSex);
+        radioOrientationGroup= (RadioGroup) findViewById(R.id.radioOrientation);
         phonenumber = (TextView) findViewById(R.id.editTextPhoneNumber);
         tagline = (TextView) findViewById(R.id.editTextTagLine);
 
@@ -91,16 +84,11 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
                 age.setFocusable(false);
                 age.setClickable(false);
 
-                gender.setText((CharSequence)gende);
-                gender.setFocusable(false);
-                gender.setClickable(false);
+                radioSexGroup.setFocusable(false);
+                radioSexGroup.setClickable(false);
 
-                spinner.setFocusable(false);
-                spinner.setClickable(false);
-
-                orientation.setText((CharSequence)orientatio);
-                orientation.setFocusable(false);
-                orientation.setClickable(false);
+                radioOrientationGroup.setFocusable(false);
+                radioOrientationGroup.setClickable(false);
 
                 phonenumber.setText((CharSequence) phonenumbe);
                 phonenumber.setFocusable(false);
@@ -112,48 +100,42 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
             }
         }
 
-        // Spinner element
-       // Spinner spinner = (Spinner) findViewById(R.id.gender_spinner);
-
-        // Spinner click listener
-        spinner.setOnItemSelectedListener(this);
-
-        // Spinner Drop down elements
-        choices = new ArrayList < java.lang.String >();
-        choices.add("male");
-        choices.add("female");
-
-        // Creating adapter for spinner
-        dataAdapter = new ArrayAdapter <String>(this, android.R.layout.simple_spinner_item, choices);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
+        addListenerOnButton_g();
+        addListenerOnButton_o();
     }
 
-    @Override
-    public void onItemSelected(AdapterView <?> parent, View view, int position, long id) {
-        // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
+    public void addListenerOnButton_g() {
 
-        // Showing selected spinner item
-        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-        if(item.equals("female") && gender.getText().toString().equals("male")){
-            gender.setText("female");
-        }
-        if(item.equals("male") && !gender.getText().toString().equals("female")) {
-            gender.setText("male");
-        }
-        //boolean animate = false;
-        //spinner.setSelection(position, animate);
-        //spinner.setAdapter(dataAdapter);
+        //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        int selectedId = radioSexGroup.getCheckedRadioButtonId();
+        radioSexButton = (RadioButton) findViewById(selectedId);
+        gender = (String) radioSexButton.getText();
+        radioSexGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                radioSexButton = (RadioButton) findViewById(checkedId);
+                gender = (String) radioSexButton.getText();
+            }
+        });
     }
 
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
-        //gender.setText(0);
+    public void addListenerOnButton_o() {
+
+        //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        int selectedId = radioOrientationGroup.getCheckedRadioButtonId();
+        radioOrientationButton = (RadioButton) findViewById(selectedId);
+        orientation = (String) radioOrientationButton.getText();
+        radioOrientationGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                radioOrientationButton = (RadioButton) findViewById(checkedId);
+                orientation = (String) radioOrientationButton.getText();
+            }
+        });
     }
 
     @Override
@@ -193,17 +175,13 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
                 age.setFocusableInTouchMode(true);
                 age.setClickable(true);
 
-                gender.setEnabled(false);
-                gender.setFocusableInTouchMode(false);
-                gender.setClickable(false);
+                radioSexGroup.setEnabled(true);
+                radioSexGroup.setFocusableInTouchMode(true);
+                radioSexGroup.setClickable(false);
 
-                spinner.setEnabled(true);
-                spinner.setFocusableInTouchMode(true);
-                spinner.setClickable(true);
-
-                orientation.setEnabled(true);
-                orientation.setFocusableInTouchMode(true);
-                orientation.setClickable(true);
+                radioOrientationGroup.setEnabled(true);
+                radioOrientationGroup.setFocusableInTouchMode(true);
+                radioOrientationGroup.setClickable(false);
 
                 phonenumber.setEnabled(true);
                 phonenumber.setFocusableInTouchMode(true);
@@ -249,7 +227,7 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
+                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -257,7 +235,7 @@ public class DisplayContact extends Activity implements AdapterView.OnItemSelect
                 }
             }
             else{
-                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString(), phonenumber.getText().toString(), tagline.getText().toString())){
+                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
                 }
                 else{

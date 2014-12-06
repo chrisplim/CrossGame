@@ -18,7 +18,7 @@
             android:id="@+id/editTextLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextOrientation"
+            android:layout_alignLeft="@+id/editTextPhoneNumber"
             android:layout_marginTop="5dp"
             android:ems="10"
             android:inputType="text" >
@@ -29,23 +29,12 @@
             android:id="@+id/editTextFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextOrientation"
+            android:layout_alignLeft="@+id/editTextLastName"
             android:layout_below="@+id/editTextLastName"
             android:layout_marginTop="5dp"
             android:ems="10"
             android:inputType="text" >
         </EditText>
-
-        <EditText
-            android:id="@+id/editTextOrientation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/editTextGender"
-            android:layout_marginTop="22dp"
-            android:layout_marginLeft="100dp"
-            android:ems="10"
-            android:inputType="text" />
 
         <TextView
             android:id="@+id/textLastName"
@@ -69,7 +58,7 @@
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextOrientation"
+            android:layout_alignLeft="@+id/editTextPhoneNumber"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/editTextTagLine"
             android:layout_marginBottom="28dp"
@@ -80,7 +69,7 @@
             android:id="@+id/textOrientation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editTextOrientation"
+            android:layout_alignBottom="@+id/radioOrientation"
             android:layout_alignParentLeft="true"
 
             android:text="@string/orientation"
@@ -99,36 +88,66 @@
             android:id="@+id/textGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/editTextOrientation"
-            android:layout_alignBottom="@+id/gender_spinner"
+            android:layout_above="@+id/editTextPhoneNumber"
+            android:layout_alignBottom="@+id/radioSex"
             android:layout_alignLeft="@+id/textAge"
             android:text="@string/gender"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Spinner
-            android:id="@+id/gender_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+        <RadioGroup
+            android:id="@+id/radioSex"
+            android:layout_width="wrap_content"
             android:layout_alignLeft="@+id/editTextLastName"
             android:layout_below="@+id/editTextAge"
-            android:prompt="@string/spinner_prompt" />
+            android:orientation="horizontal"
+            android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/editTextGender"
+
+            <RadioButton
+                android:id="@+id/radioMale1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_male1"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioFemale1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/radioMale1"
+                android:layout_alignParentLeft="true"
+                android:text="@string/radio_female1" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/radioOrientation"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextLastName"
-            android:layout_below="@+id/gender_spinner"
-            android:ems="10"
-            android:inputType="text" >
+            android:layout_below="@+id/radioSex"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content" >
 
-        </EditText>
+            <RadioButton
+                android:id="@+id/radioMale2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_male2"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioFemale2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_female2" />
+
+        </RadioGroup>
 
         <EditText
             android:id="@+id/editTextAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/gender_spinner"
+            android:layout_alignLeft="@+id/radioSex"
             android:layout_below="@+id/editTextFirstName"
             android:ems="10"
             android:inputType="number" />
@@ -138,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/editTextOrientation"
+            android:layout_below="@+id/radioOrientation"
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"

@@ -36,5 +36,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="title_activity_start_connect">StartConnect</string>
+    <string name="radio_male1">male</string>
+    <string name="radio_female1">female</string>
+    <string name="radio_male2">male</string>
+    <string name="radio_female2">female</string>
 
 </resources>
