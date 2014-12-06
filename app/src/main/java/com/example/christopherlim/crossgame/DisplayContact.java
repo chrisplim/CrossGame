@@ -17,6 +17,7 @@ public class DisplayContact extends Activity {
 
     int from_Where_I_Am_Coming = 0;
     private DBHelper mydb ;
+    private RDSHelper myRDS;
     TextView name ;
     TextView age ;
     TextView gender ;
@@ -42,7 +43,7 @@ public class DisplayContact extends Activity {
         //place = (TextView) findViewById(R.id.editTextCity);
 
         mydb = new DBHelper(this);
-
+        myRDS = new RDSHelper(this);
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
         {
@@ -191,6 +192,7 @@ public class DisplayContact extends Activity {
         {
             int Value = extras.getInt("id");
             if(Value>0){
+                if(myRDS.updateUser())
                 if(mydb.updateContact(id_To_Update,name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
@@ -199,6 +201,8 @@ public class DisplayContact extends Activity {
                 else{
                     Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
             else{
                 if(mydb.insertContact(name.getText().toString(), age.getText().toString(), gender.getText().toString(), orientation.getText().toString())){
