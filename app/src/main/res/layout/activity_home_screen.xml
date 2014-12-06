@@ -15,12 +15,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="@drawable/ic_launcher">
 
-       <!-- <Button
+        <Button
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/button_connect"
-            android:onClick="startConnect" /> -->
+            android:onClick="startConnect2" />
 
         <Button
             android:layout_weight="1"

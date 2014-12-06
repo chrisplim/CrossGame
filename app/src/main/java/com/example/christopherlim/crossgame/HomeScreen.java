@@ -38,11 +38,11 @@ public class HomeScreen extends Activity {
     }
 
     /** Called when the user clicks the Send button */
-   /* public void startConnect(View view) {
+    public void startConnect2(View view) {
         // Do something in response to button
         Intent intent = new Intent(this, wifiP2PInit.class);
         startActivity(intent);
-    }*/
+    }
 
     public void startInput(View view) { //changed from infoinput
         Bundle dataBundle = new Bundle();
