@@ -121,4 +121,61 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return array_list;
     }
+
+
+    public String getLastName(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select lastname from contacts", null );
+        res.moveToFirst();
+        String temp_last = res.getString(0);
+        return temp_last;
+    }
+
+    public String getFirstName(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select firstname from contacts", null );
+        res.moveToFirst();
+        String temp_last = res.getString(0);
+        return temp_last;
+    }
+
+    public String getAge(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select age from contacts", null );
+        res.moveToFirst();
+        String temp_last = res.getString(0);
+        return temp_last;
+    }
+
+    public String getGender(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select gender from contacts", null );
+        res.moveToFirst();
+        String temp_last = res.getString(0);
+        return temp_last;
+    }
+
+    public String getOrientation(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select orientation from contacts", null );
+        res.moveToFirst();
+        String temp_last = res.getString(0);
+        return temp_last;
+    }
+
+    public String getPhoneNumber(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select phonenumber from contacts", null );
+        res.moveToFirst();
+        String temp_last = res.getString(0);
+        return temp_last;
+    }
+
+    public String getTagLine(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select tagline from contacts", null );
+        res.moveToFirst();
+        String temp_last = res.getString(0);
+        return temp_last;
+    }
 }

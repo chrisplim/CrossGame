@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -229,24 +230,76 @@ public class DisplayContact extends Activity{
         if(extras !=null)
         {
             int Value = extras.getInt("id");
+            String tempLastName = lastname.getText().toString();
+            String tempFirstName = firstname.getText().toString();
+            String tempAge = age.getText().toString();
+            String tempGender = gender;
+            String tempOrientation = orientation;
+            String tempPhoneNumber = phonenumber.getText().toString();
+            String tempTagLine = tagline.getText().toString();
+
+
             if(Value>0){
+                String tempOldLastName = mydb.getLastName();
+                String tempOldFirstName = mydb.getFirstName();
+                String tempOldAge = mydb.getAge();
+                String tempOldGender = mydb.getGender();
+                String tempOldOrientation = mydb.getOrientation();
+                String tempOldPhoneNumber = mydb.getPhoneNumber();
+                String tempOldTagLine = mydb.getTagLine();
 
-                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
-                    Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+
+                if (myRDS.updateUser(tempOldLastName, tempOldFirstName, tempOldAge, tempOldGender, tempOldOrientation, tempOldPhoneNumber, tempOldTagLine, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)
+                        && mydb.updateContact(id_To_Update, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
+
+                    Toast.makeText(getApplicationContext(), "User Updated", Toast.LENGTH_SHORT).show();
+
+                    //Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.StartConnect.class);
+                    //startActivity(intent);
+
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getApplicationContext(), "User Update Failed", Toast.LENGTH_SHORT).show();
+                    Log.d("updating user", myRDS.getErrorMessage());
+
                 }
-
-
             }
             else{
-                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
-                    Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
+                /*
+                if (myRDS.insertUser(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)
+                        && mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
+
+                    Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_SHORT).show();
+
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_SHORT).show();
+                    Log.d("inserting user", myRDS.getErrorMessage());
+
                 }
+                */
+                //new RDSHelper(this).execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine);
+                myRDS.execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine);
+                //Log.d("Display Contact ", myRDS.getOutputMessage());
+                //if(myRDS.didRequestSucceed()){
+                //   Log.d("Display Contact: ", "passed rds insertion");
+                //   Toast.makeText(getApplicationContext(), "Passed RDS insertion", Toast.LENGTH_SHORT).show();
+                //   if(mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
+                //        Log.d("Display Contact: ", "successfully inserted user");
+                //        Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_LONG).show();
+                //    }
+                //} else {
+                //    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_LONG).show();
+                //    Log.d("inserting user", myRDS.getErrorMessage());
+                //}
+                if(mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
+                    Log.d("Display Contact: ", "successfully inserted user");
+                    Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d("inserting user","failed to insert user");
+                    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_LONG).show();
+                }
+
                 //Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
                 Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.StartConnect.class);
                 startActivity(intent);
