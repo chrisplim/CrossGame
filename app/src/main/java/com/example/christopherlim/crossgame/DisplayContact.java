@@ -21,6 +21,7 @@ public class DisplayContact extends Activity{
 
     int from_Where_I_Am_Coming = 0;
     private DBHelper mydb ;
+
     TextView lastname ;
     TextView firstname ;
     private RDSHelper myRDS;
@@ -263,6 +264,8 @@ public class DisplayContact extends Activity{
                     Log.d("updating user", myRDS.getErrorMessage());
 
                 }
+
+
             }
             else{
                 /*

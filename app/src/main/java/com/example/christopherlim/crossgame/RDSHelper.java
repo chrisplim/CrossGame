@@ -110,11 +110,15 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
     public boolean didRequestSucceed() {
         return successOfRequest;
     }
+
     public String getErrorMessage(){
         return errorMessage;
     }
 
-    public String getOutputMessage() {return outputMessage; }
+    public String getOutputMessage() {
+        return outputMessage;
+    }
+
 
     public boolean insertUser(String... arg0){
 
@@ -244,6 +248,7 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
                 sb.append(line);
                 break;
             }
+
             outputMessage = sb.toString();
             return true;
         }catch(Exception e){
