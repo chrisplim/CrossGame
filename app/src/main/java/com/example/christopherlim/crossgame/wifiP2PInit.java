@@ -12,6 +12,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo;
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
     WifiP2pManager.Channel mChannel;
     BroadcastReceiver receiver;
 
+
     public static final String TAG = "Wifi Direct";
     public static final String SERVICE_INSTANCE = "CrossGame";
     public static final String SERVICE_REG_TYPE = "_presence._tcp";
@@ -39,14 +41,20 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
     private WifiP2pDnsSdServiceRequest serviceRequest;
 
     private WiFiDirectServicesList deviceList;
+    //private UserConnectionList userList;
+    private UserDBHelper userdb;
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
-    private DBHelper mydb;
+    private DBHelper mydb1;
+    private UserDBHelper mydb2;
     private String gender;
     private String orientation;
+    private String name;
     class Connection {
         Connection() {
             c_gender = "";
             c_orientation = "";
+            c_id = "";
+            c_name = "";
         }
 
         public void setGender(String g) {
@@ -55,17 +63,25 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
         public void setOrientation(String o) {
             c_orientation = o;
         }
+        public void setId(String i) { c_id = i;}
+        public void setName(String n) { c_name = n; }
         public String getGender() {
             return c_gender;
         }
         public String getOrientation() {
             return c_orientation;
         }
+        public String getId() { return c_id; }
+        public String getName() { return c_name; }
         private String c_gender;
         private String c_orientation;
+        private String c_id;
+        private String c_name;
 
     };
     final HashMap<String, Connection> connections = new HashMap<String, Connection>();
+    String android_id;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +105,16 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
         mChannel = mManager.initialize(this, getMainLooper(), null);
         gender = "";
         orientation = "";
+        android_id = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         startRegistrationAndDiscovery();
 
         deviceList = new WiFiDirectServicesList();
+        //userList = new UserConnectionList();
         getFragmentManager().beginTransaction()
                 .add(R.id.container_root, deviceList, "services").commit();
+        //getFragmentManager().beginTransaction()
+                //.add(R.id.container_root, userList, "users").commit();
 
            }
 
@@ -193,7 +214,8 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
     private void startRegistrationAndDiscovery() {
         Log.d(TAG, "in startRegistrationAndDiscovery");
-        mydb = new DBHelper(this);
+        mydb1 = new DBHelper(this);
+        mydb2 = new UserDBHelper(this);
         //ArrayList contacts = mydb.getAllContacts();
         Map<String, String> ourRecord = new HashMap<String, String>();
         //Bundle extras = getIntent().getExtras();
@@ -202,13 +224,16 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
            //if(Value > 0) {
                 //String name = db.sqlexec(getname);
                 ourRecord.put("available", "visible");
-               Cursor res = mydb.getData(1);
+               Cursor res = mydb1.getData(1);
                 res.moveToFirst();
                 gender = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
                 orientation = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
+                name = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_FIRSTNAME));
                 //record.put("name", name);
                 ourRecord.put("gender", gender);
                 ourRecord.put("orientation", orientation);
+                ourRecord.put("id", android_id);
+                ourRecord.put("name", name);
             //}
         //}
 
@@ -248,11 +273,11 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
                             // update the UI and add the item the discovered
                             // device.
-                            WiFiDirectServicesList fragment = (WiFiDirectServicesList) getFragmentManager()
+                            WiFiDirectServicesList fragment1 = (WiFiDirectServicesList) getFragmentManager()
                                     .findFragmentByTag("services");
                             Log.d(TAG, "inside discoverService after making wifidirectservicelist fragment");
-                            if (fragment != null) {
-                                WiFiDirectServicesList.WiFiDevicesAdapter adapter = ((WiFiDirectServicesList.WiFiDevicesAdapter) fragment
+                            if (fragment1 != null) {
+                                WiFiDirectServicesList.WiFiDevicesAdapter adapter = ((WiFiDirectServicesList.WiFiDevicesAdapter) fragment1
                                         .getListAdapter());
                                 Log.d(TAG, "inside discoverService after making adapter");
                                 //adapter.clear();, filter by global hashmap
@@ -266,6 +291,9 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                                         adapter.notifyDataSetChanged();
                                         Log.d(TAG, "onBonjourServiceAvailable "
                                                 + instanceName);
+                                        //add user name and id to Connected database
+                                        mydb2.insertUser(temp_connection.getId(), temp_connection.getName());
+
                                     }
                                 }
                             }
@@ -286,6 +314,8 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                       Connection c = new Connection();
                       c.setGender(record.get("gender"));
                       c.setOrientation(record.get("orientation"));
+                      c.setId(record.get("id"));
+                      c.setName(record.get("name"));
                       connections.put(device.deviceAddress, c);
 
                     }

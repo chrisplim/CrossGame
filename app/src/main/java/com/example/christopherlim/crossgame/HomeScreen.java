@@ -44,9 +44,15 @@ public class HomeScreen extends Activity {
         startActivity(intent);
     }
 
+    public void startConnectedList2(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, ConnectedList.class);
+        startActivity(intent);
+    }
+
     public void startInput(View view) { //changed from infoinput
         Bundle dataBundle = new Bundle();
-        dataBundle.putInt("id", 0);     
+        dataBundle.putInt("id", 0);
         Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.DisplayContact.class);
         intent.putExtras(dataBundle);
         startActivity(intent);

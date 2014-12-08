@@ -58,6 +58,22 @@
             android:name=".StartConnect"
             android:label="@string/title_activity_start_connect" >
         </activity>
+        <activity
+            android:name=".ConnectedList"
+            android:label="@string/title_activity_connected_list"
+            android:parentActivityName=".StartConnect" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.christopherlim.crossgame.StartConnect" />
+        </activity>
+        <activity
+            android:name=".DisplayUser"
+            android:label="@string/title_activity_display_user"
+            android:parentActivityName=".ConnectedList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.christopherlim.crossgame.ConnectedList" />
+        </activity>
     </application>
 
 </manifest>

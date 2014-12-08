@@ -1,8 +1,5 @@
 package com.example.christopherlim.crossgame;
 
-/**
- * Created by Grace on 11/23/2014.
- */
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,22 +10,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DBHelper extends SQLiteOpenHelper {
+/**
+ * Created by Sean on 12/7/2014.
+ */
+public class UserDBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "MyDBName.db";
-    public static final String CONTACTS_TABLE_NAME = "contacts";
+    public static final String CONTACTS_COLUMN_ID = "id";
+    public static final String CONTACTS_TABLE_NAME = "users";
     public static final String CONTACTS_COLUMN_DEVICEID = "deviceid";
-    public static final String CONTACTS_COLUMN_LASTNAME = "lastname";
-    public static final String CONTACTS_COLUMN_FIRSTNAME = "firstname";
-    public static final String CONTACTS_COLUMN_AGE = "age";
-    public static final String CONTACTS_COLUMN_GENDER = "gender";
-    public static final String CONTACTS_COLUMN_ORIENTATION = "orientation";
-    public static final String CONTACTS_COLUMN_PHONENUMBER = "phonenumber";
-    public static final String CONTACTS_COLUMN_TAGLINE = "tagline";
+    public static final String CONTACTS_COLUMN_NAME = "name";
 
     private HashMap hp;
 
-    public DBHelper(Context context)
+    public UserDBHelper(Context context)
     {
         super(context, DATABASE_NAME , null, 1);
     }
@@ -36,19 +31,13 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-        String CREATE_CONTACTS_TABLE= "CREATE TABLE contacts ( " +
+        String CREATE_USERS_TABLE= "CREATE TABLE users ( " +
                 "id INTEGER PRIMARY KEY, " +
-                "lastname TEXT, " +
-                "firstname TEXT, " +
-                "age TEXT, " +
-                "gender TEXT, " +
-                "orientation TEXT, " +
-                "phonenumber TEXT, " +
-                "tagline TEXT, " +
-                "deviceid TEXT )"
+                "deviceid TEXT, " +
+                "name TEXT)"
                 ;
 
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_USERS_TABLE);
     }
 
     @Override
@@ -58,18 +47,12 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertContact  (String lastname, String firstname, String age, String gender, String orientation, String phonenumber, String tagline, String deviceid)
+    public boolean insertUser  (String deviceid, String name)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("lastname", lastname);
-        contentValues.put("firstname", firstname);
-        contentValues.put("age", age);
-        contentValues.put("gender", gender);
-        contentValues.put("orientation", orientation);
-        contentValues.put("phonenumber", phonenumber);
-        contentValues.put("tagline", tagline);
+        contentValues.put("name", name);
         contentValues.put("deviceid", deviceid);
 
         db.insert("contacts", null, contentValues);
@@ -85,18 +68,12 @@ public class DBHelper extends SQLiteOpenHelper {
         int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
         return numRows;
     }
-    public boolean updateContact (Integer id, String lastname, String firstname, String age, String gender, String orientation, String phonenumber, String tagline, String deviceid)
+    public boolean updateContact (Integer id, String deviceid, String name)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("lastname", lastname);
-        contentValues.put("firstname", firstname);
-        contentValues.put("age", age);
-        contentValues.put("gender", gender);
-        contentValues.put("orientation", orientation);
-        contentValues.put("phonenumber", phonenumber);
-        contentValues.put("tagline", tagline);
         contentValues.put("deviceid", deviceid);
+        contentValues.put("name", name);
         db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }
@@ -115,7 +92,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from contacts", null );
         res.moveToFirst();
         while(res.isAfterLast() == false){
-            int cIndex = res.getColumnIndex(CONTACTS_COLUMN_LASTNAME);
+            int cIndex = res.getColumnIndex(CONTACTS_COLUMN_NAME);
             if(cIndex >=0)
             {
                 array_list.add(res.getString(cIndex));
