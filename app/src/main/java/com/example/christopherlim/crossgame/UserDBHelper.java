@@ -34,7 +34,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         String CREATE_USERS_TABLE= "CREATE TABLE users ( " +
                 "id INTEGER PRIMARY KEY, " +
                 "deviceid TEXT, " +
-                "name TEXT)"
+                "name TEXT )"
                 ;
 
         db.execSQL(CREATE_USERS_TABLE);
