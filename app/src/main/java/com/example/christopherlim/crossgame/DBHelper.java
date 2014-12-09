@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "MyDBName.db";
     public static final String CONTACTS_TABLE_NAME = "contacts";
-    public static final String CONTACTS_COLUMN_ID = "id";
+    public static final String CONTACTS_COLUMN_DEVICEID = "deviceid";
     public static final String CONTACTS_COLUMN_LASTNAME = "lastname";
     public static final String CONTACTS_COLUMN_FIRSTNAME = "firstname";
     public static final String CONTACTS_COLUMN_AGE = "age";
@@ -44,7 +44,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "gender TEXT, " +
                 "orientation TEXT, " +
                 "phonenumber TEXT, " +
-                "tagline TEXT )"
+                "tagline TEXT, " +
+                "deviceid TEXT )"
                 ;
 
         db.execSQL(CREATE_CONTACTS_TABLE);
@@ -57,7 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertContact  (String lastname, String firstname, String age, String gender, String orientation, String phonenumber, String tagline)
+    public boolean insertContact  (String lastname, String firstname, String age, String gender, String orientation, String phonenumber, String tagline, String deviceid)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -69,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("orientation", orientation);
         contentValues.put("phonenumber", phonenumber);
         contentValues.put("tagline", tagline);
+        contentValues.put("deviceid", deviceid);
 
         db.insert("contacts", null, contentValues);
         return true;
@@ -83,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
         int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
         return numRows;
     }
-    public boolean updateContact (Integer id, String lastname, String firstname, String age, String gender, String orientation, String phonenumber, String tagline)
+    public boolean updateContact (Integer id, String lastname, String firstname, String age, String gender, String orientation, String phonenumber, String tagline, String deviceid)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -94,6 +96,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("orientation", orientation);
         contentValues.put("phonenumber", phonenumber);
         contentValues.put("tagline", tagline);
+        contentValues.put("deviceid", deviceid);
         db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }

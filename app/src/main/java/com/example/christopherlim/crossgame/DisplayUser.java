@@ -1,42 +1,31 @@
 package com.example.christopherlim.crossgame;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-public class DisplayContact extends Activity{
+public class DisplayUser extends Activity {
 
-    int from_Where_I_Am_Coming = 0;
-    private DBHelper mydb ;
-
+    private UserDBHelper mydb ;
     TextView lastname ;
     TextView firstname ;
-    private RDSHelper myRDS;
-
     TextView age ;
-    String gender ;
-    String orientation ;
+    TextView gender ;
+    TextView orientation ;
     TextView phonenumber ;
     TextView tagline ;
-    RadioGroup radioSexGroup;
-    RadioButton radioSexButton;
-    RadioGroup radioOrientationGroup;
-    RadioButton radioOrientationButton;
-    String android_id;
+    String deviceid;
+    String name;
+    //RadioGroup radioSexGroup;
+   //RadioButton radioSexButton;
+   //RadioGroup radioOrientationGroup;
+    //RadioButton radioOrientationButton;
 
     int id_To_Update = 0;
 
@@ -44,19 +33,19 @@ public class DisplayContact extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_contact);
-        lastname = (TextView) findViewById(R.id.editTextLastName);
-        firstname = (TextView) findViewById(R.id.editTextFirstName);
-        age = (TextView) findViewById(R.id.editTextAge);
-        radioSexGroup= (RadioGroup) findViewById(R.id.radioSex);
-        radioOrientationGroup= (RadioGroup) findViewById(R.id.radioOrientation);
-        phonenumber = (TextView) findViewById(R.id.editTextPhoneNumber);
-        tagline = (TextView) findViewById(R.id.editTextTagLine);
-        android_id = Settings.Secure.getString(this.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        setContentView(R.layout.activity_display_user);
+        lastname = (TextView) findViewById(R.id.editTextLastName2);
+        firstname = (TextView) findViewById(R.id.editTextFirstName2);
+        age = (TextView) findViewById(R.id.editTextAge2);
+        gender = (TextView) findViewById(R.id.editTextGender2);
+        orientation = (TextView) findViewById(R.id.editTextOrientation2);
+        //radioSexGroup= (RadioGroup) findViewById(R.id.radioSex);
+        //radioOrientationGroup= (RadioGroup) findViewById(R.id.radioOrientation);
+        phonenumber = (TextView) findViewById(R.id.editTextPhoneNumber2);
+        tagline = (TextView) findViewById(R.id.editTextTagLine2);
 
-        mydb = new DBHelper(this);
-        myRDS = new RDSHelper(this);
+        mydb = new UserDBHelper(this);
+
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
         {
@@ -66,6 +55,11 @@ public class DisplayContact extends Activity{
                 Cursor rs = mydb.getData(Value);
                 id_To_Update = Value;
                 rs.moveToFirst();
+                //change this to retrieve from RDS server
+                //use these strings for RDS lookup
+                deviceid = rs.getString(rs.getColumnIndex(UserDBHelper.CONTACTS_COLUMN_DEVICEID));
+                name = rs.getString(rs.getColumnIndex(UserDBHelper.CONTACTS_COLUMN_NAME));
+                //change below to update from RDS
                 String lastnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_LASTNAME));
                 String firstnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_FIRSTNAME));
                 String ag = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_AGE));
@@ -93,11 +87,19 @@ public class DisplayContact extends Activity{
                 age.setFocusable(false);
                 age.setClickable(false);
 
-                radioSexGroup.setFocusable(false);
+               /*radioSexGroup.setFocusable(false);
                 radioSexGroup.setClickable(false);
 
                 radioOrientationGroup.setFocusable(false);
-                radioOrientationGroup.setClickable(false);
+                radioOrientationGroup.setClickable(false);*/
+
+                gender.setText((CharSequence) gende);
+                gender.setFocusable(false);
+                gender.setClickable(false);
+
+                orientation.setText((CharSequence) orientatio);
+                orientation.setFocusable(false);
+                orientation.setClickable(false);
 
                 phonenumber.setText((CharSequence) phonenumbe);
                 phonenumber.setFocusable(false);
@@ -109,11 +111,11 @@ public class DisplayContact extends Activity{
             }
         }
 
-        addListenerOnButton_g();
-        addListenerOnButton_o();
+        //addListenerOnButton_g();
+       // addListenerOnButton_o();
     }
 
-    public void addListenerOnButton_g() {
+   /* public void addListenerOnButton_g() {
 
         //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
         int selectedId = radioSexGroup.getCheckedRadioButtonId();
@@ -145,7 +147,7 @@ public class DisplayContact extends Activity{
                 orientation = (String) radioOrientationButton.getText();
             }
         });
-    }
+    } */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,7 +157,7 @@ public class DisplayContact extends Activity{
         {
             int Value = extras.getInt("id");
             if(Value>0){
-                getMenuInflater().inflate(R.menu.display_contact, menu);
+                getMenuInflater().inflate(R.menu.display_user, menu);
             }
             else{
                 getMenuInflater().inflate(R.menu.main, menu);
@@ -169,7 +171,7 @@ public class DisplayContact extends Activity{
         super.onOptionsItemSelected(item);
         switch(item.getItemId())
         {
-            case R.id.Edit_Contact:
+            /*case R.id.Edit_Contact:
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.VISIBLE);
                 lastname.setEnabled(true);
@@ -222,101 +224,39 @@ public class DisplayContact extends Activity{
                 d.setTitle("Are you sure");
                 d.show();
 
-                return true;
+                return true; */
             default:
                 return super.onOptionsItemSelected(item);
 
         }
     }
-
+/*
     public void run(View view)
     {
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
         {
             int Value = extras.getInt("id");
-            String tempLastName = lastname.getText().toString();
-            String tempFirstName = firstname.getText().toString();
-            String tempAge = age.getText().toString();
-            String tempGender = gender;
-            String tempOrientation = orientation;
-            String tempPhoneNumber = phonenumber.getText().toString();
-            String tempTagLine = tagline.getText().toString();
-
-
             if(Value>0){
-                String tempOldLastName = mydb.getLastName();
-                String tempOldFirstName = mydb.getFirstName();
-                String tempOldAge = mydb.getAge();
-                String tempOldGender = mydb.getGender();
-                String tempOldOrientation = mydb.getOrientation();
-                String tempOldPhoneNumber = mydb.getPhoneNumber();
-                String tempOldTagLine = mydb.getTagLine();
+                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
 
-
-                //if (myRDS.updateUser(tempOldLastName, tempOldFirstName, tempOldAge, tempOldGender, tempOldOrientation, tempOldPhoneNumber, tempOldTagLine, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)
-                        //&& mydb.updateContact(id_To_Update, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
-
-                    //Toast.makeText(getApplicationContext(), "User Updated", Toast.LENGTH_SHORT).show();
-
-                    //Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.StartConnect.class);
-                    //startActivity(intent);
-
-                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString(), android_id)){
-                    Toast.makeText(getApplicationContext(), "User Successfully updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), "User Update Failed", Toast.LENGTH_SHORT).show();
-                    Log.d("updating user: ", myRDS.getErrorMessage());
-
+                else{
+                    Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
             else{
-                /*
-                if (myRDS.insertUser(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)
-                        && mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
-
-                    Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_SHORT).show();
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_SHORT).show();
-                    Log.d("inserting user", myRDS.getErrorMessage());
-
-
-                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString(), android_id)){
+                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString())){
                     Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
                 }
-                */
-                //new RDSHelper(this).execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine);
-                myRDS.execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine);
-                //Log.d("Display Contact ", myRDS.getOutputMessage());
-                //if(myRDS.didRequestSucceed()){
-                //   Log.d("Display Contact: ", "passed rds insertion");
-                //   Toast.makeText(getApplicationContext(), "Passed RDS insertion", Toast.LENGTH_SHORT).show();
-                //   if(mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
-                //        Log.d("Display Contact: ", "successfully inserted user");
-                //        Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_LONG).show();
-                //    }
-                //} else {
-                //    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_LONG).show();
-                //    Log.d("inserting user", myRDS.getErrorMessage());
-                //}
-                if(mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine, android_id)){
-                    Log.d("Display Contact: ", "successfully inserted user");
-                    Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_LONG).show();
-                } else {
-                    Log.d("inserting user","failed to insert user");
-                    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_LONG).show();
+                else{
+                    Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
                 }
-
                 //Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
                 Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.StartConnect.class);
                 startActivity(intent);
             }
         }
-    }
-
+    }*/
 }

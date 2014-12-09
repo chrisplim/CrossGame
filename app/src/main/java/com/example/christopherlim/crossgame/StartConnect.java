@@ -41,4 +41,10 @@ public class StartConnect extends Activity {
         Intent intent = new Intent(this, wifiP2PInit.class);
         startActivity(intent);
     }
+
+    public void startConnectedList(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, ConnectedList.class);
+        startActivity(intent);
+    }
 }
