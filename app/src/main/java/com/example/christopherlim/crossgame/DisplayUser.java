@@ -54,7 +54,7 @@ public class DisplayUser extends Activity {
                 //means this is the view part not the add contact part.
                 Cursor rs = mydb.getData(Value);
                 id_To_Update = Value;
-                rs.moveToFirst();
+                rs.moveToFirst();   //do we need this?
                 //change this to retrieve from RDS server
                 //use these strings for RDS lookup
                 deviceid = rs.getString(rs.getColumnIndex(UserDBHelper.USERS_COLUMN_DEVICEID));
