@@ -86,7 +86,7 @@ public class DisplayUser extends Activity {
                 age.setText((CharSequence)ag);
                 age.setFocusable(false);
                 age.setClickable(false);
-
+                //change
                /*radioSexGroup.setFocusable(false);
                 radioSexGroup.setClickable(false);
 
