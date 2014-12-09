@@ -14,7 +14,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         >
 
-        <EditText
+        <TextView
             android:id="@+id/editTextLastName2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,20 +22,19 @@
             android:layout_alignLeft="@+id/editTextPhoneNumber2"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="text" >
+            >
 
-        </EditText>
+        </TextView>
 
-        <EditText
+        <TextView
             android:id="@+id/editTextFirstName2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextLastName2"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="text" >
-            <requestFocus />
-        </EditText>
+            >
+        </TextView>
 
         <TextView
             android:id="@+id/textLastName2"
@@ -95,7 +94,7 @@
             android:text="@string/gender"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <EditText
+        <TextView
             android:id="@+id/editTextGender2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,7 +102,7 @@
             android:layout_below="@+id/editTextAge2"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="text" />
+            />
 
        <!-- <RadioGroup
             android:id="@+id/radioSex"
@@ -154,25 +153,25 @@
 
         </RadioGroup> -->
 
-        <EditText
+        <TextView
             android:id="@+id/editTextAge2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextGender2"
             android:layout_below="@+id/editTextLastName2"
             android:ems="10"
-            android:inputType="number" />
+            />
 
-        <EditText
+        <TextView
             android:id="@+id/editTextOrientation2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextGender2"
             android:layout_below="@+id/editTextGender2"
             android:ems="10"
-            android:inputType="number" />
+            />
 
-        <EditText
+        <TextView
             android:id="@+id/editTextPhoneNumber2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -181,9 +180,9 @@
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"
-            android:inputType="number" />
+            />
 
-        <EditText
+        <TextView
             android:id="@+id/editTextTagLine2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -192,7 +191,7 @@
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"
-            android:inputType="text" />
+            />
 
         <TextView
             android:id="@+id/textPhoneNumber2"
@@ -203,7 +202,7 @@
 
             android:text="@string/phonenumber"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:inputType="number" />
+            />
 
         <TextView
             android:id="@+id/textTagLine2"

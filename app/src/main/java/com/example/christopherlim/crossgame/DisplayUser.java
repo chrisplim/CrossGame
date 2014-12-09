@@ -55,8 +55,8 @@ public class DisplayUser extends Activity {
                 //change this to retrieve from RDS server
                 //use these strings for RDS lookup
                 deviceid = rs.getString(rs.getColumnIndex(DBHelper.USERS_COLUMN_DEVICEID));
-
-                new RDSHelper(this, lastname, firstname, age, gender, orientation, phonenumber, tagline, deviceid, 0).execute();
+                name = rs.getString(rs.getColumnIndex(DBHelper.USERS_COLUMN_NAME));
+                new RDSHelper(this, lastname, firstname, age, gender, orientation, phonenumber, tagline, deviceid, 0).execute(name);
                 //change below to update from RDS
                 //String lastnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_LASTNAME));
                 //String firstnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_FIRSTNAME));

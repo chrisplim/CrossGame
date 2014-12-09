@@ -9,11 +9,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 /**
  * Created by ChristopherL on 12/5/2014.
@@ -42,13 +42,13 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
         outputMessage = "";
         errorMessage = "";
         successOfRequest = false;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.age = age;
-        this.gender = gender;
-        this.lookingFor = lookingFor;
-        this.phoneNumber = phoneNumber;
-        this.tagLine = tagLine;
+        this.lastName = (TextView) lastName;
+        this.firstName = (TextView) firstName;
+        this.age = (TextView) age;
+        this.gender = (TextView) gender;
+        this.lookingFor = (TextView) lookingFor;
+        this.phoneNumber = (TextView) phoneNumber;
+        this.tagLine = (TextView) tagLine;
         this.mode = mode;
         this.androidId = androidId;
     }
@@ -124,9 +124,11 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
             //else we are getting information
             try {
 
-                /*
+                String firstName = (String) arg0[0];
+
                 String link = "http://54.148.130.198/getProfile.php?";
                 link += "device_id=" + androidId;
+                link += "&" + "first_name=" + firstName;
 
                 Log.d("RDS Helper: ", link);
 
@@ -140,6 +142,7 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
                 request.setURI(new URI(encodedLink));
                 HttpResponse response = client.execute(request);
 
+                /*
                 BufferedReader in = new BufferedReader
                         (new InputStreamReader(response.getEntity().getContent()));
 
@@ -147,17 +150,24 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
                 String line="";
                 while ((line = in.readLine()) != null) {
                     sb.append(line);
-                    Log.d("RDS Helper: ", sb.toString());
+                    Log.d("RDS Helper: " , sb.toString());
                     break;
                 }
                 in.close();
-                outputMessage = "success";
-                String tempRetrievedOutput;
-                tempRetrievedOutput = sb.toString();
-                Log.d("RDS Helper: ", tempRetrievedOutput);
-                outputMessage = "success";
-                successOfRequest = true;
-                return "success";*/
+                Log.d("RDS Helper: " , sb.toString());
+                */
+
+                //outputMessage = "success";
+                //successOfRequest = true;
+
+                String str = EntityUtils.toString(response.getEntity());
+                Log.d("RDS Helper: ",  str);
+
+
+
+
+
+                 /*
                 String username = "admin";
                 String password = "admin";
                 String link = "http://54.148.130.198/getMethod.php?username="
@@ -167,19 +177,11 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
                 HttpGet request = new HttpGet();
                 request.setURI(new URI(link));
                 HttpResponse response = client.execute(request);
-                BufferedReader in = new BufferedReader
-                        (new InputStreamReader(response.getEntity().getContent()));
 
-                StringBuffer sb = new StringBuffer("");
-                String line="";
-                while ((line = in.readLine()) != null) {
-                    sb.append(line);
-                    Log.d("RDS Helper: ", sb.toString());
-                    break;
-                }
-                in.close();
-                Log.d("RDS Helper: ", sb.toString());
-                return sb.toString();
+                String str = EntityUtils.toString(response.getEntity());
+                Log.d("RDS Helper: ",  str);*/
+
+                return str;
             } catch (Exception e) {
                 //return new String("Exception: " + e.getMessage());
                 errorMessage = "Exception: " + e.getMessage();
@@ -197,6 +199,36 @@ public class RDSHelper extends AsyncTask<String,Void,String> {
         if(mode == 1) {
             Log.d("RDS Helper: ", "onPostExecute " + successOfRequest);
         } else {
+            Pattern pattern = Pattern.compile(Pattern.quote("<br>"));
+            String[] data = pattern.split(result);
+            //System.out.println(Arrays.toString(data));
+            lastName.setText(data[1]);
+            //lastName.setFocusable(false);
+            //lastName.setClickable(false);
+
+            firstName.setText(data[2]);
+            //firstName.setFocusable(false);
+            //firstName.setClickable(false);
+
+            age.setText(data[3]);
+            //age.setFocusable(false);
+            //age.setClickable(false);
+
+            gender.setText(data[4]);
+            //gender.setFocusable(false);
+            //gender.setClickable(false);
+
+            lookingFor.setText(data[5]);
+            //lookingFor.setFocusable(false);
+            //lookingFor.setClickable(false);
+
+            phoneNumber.setText(data[6]);
+            //phoneNumber.setFocusable(false);
+            //phoneNumber.setClickable(false);
+
+            tagLine.setText(data[7]);
+            //tagLine.setFocusable(false);
+            //tagLine.setClickable(false);
 
         }
 
