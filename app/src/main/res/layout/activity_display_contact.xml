@@ -18,11 +18,12 @@
             android:id="@+id/editTextLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextFirstName"
             android:layout_alignLeft="@+id/editTextPhoneNumber"
             android:layout_marginTop="5dp"
             android:ems="10"
             android:inputType="text" >
-            <requestFocus />
+
         </EditText>
 
         <EditText
@@ -30,10 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editTextLastName"
-            android:layout_below="@+id/editTextLastName"
             android:layout_marginTop="5dp"
             android:ems="10"
             android:inputType="text" >
+            <requestFocus />
         </EditText>
 
         <TextView
@@ -80,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/editTextAge"
-            android:layout_alignLeft="@+id/textFirstName"
+            android:layout_alignLeft="@+id/textLastName"
             android:text="@string/age"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -148,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/radioSex"
-            android:layout_below="@+id/editTextFirstName"
+            android:layout_below="@+id/editTextLastName"
             android:ems="10"
             android:inputType="number" />
 
