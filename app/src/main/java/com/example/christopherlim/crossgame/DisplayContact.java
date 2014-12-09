@@ -261,7 +261,7 @@ public class DisplayContact extends Activity{
                     //Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.StartConnect.class);
                     //startActivity(intent);
 
-                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString(), android_id, 0)){
+                if(mydb.updateContact(id_To_Update, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine, android_id, 0)){
                     Toast.makeText(getApplicationContext(), "User Successfully updated", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -273,7 +273,6 @@ public class DisplayContact extends Activity{
 
             }
             else{
-
                 //new RDSHelper(this).execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine);
                 myRDS.execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine, android_id);
 

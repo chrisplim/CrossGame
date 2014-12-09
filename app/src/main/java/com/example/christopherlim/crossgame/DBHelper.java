@@ -114,6 +114,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return numRows;
     }
+
     public boolean updateContact (Integer id, String lastname, String firstname, String age, String gender, String orientation, String phonenumber, String tagline, String deviceid, int mode)
     {
         SQLiteDatabase db = this.getWritableDatabase();

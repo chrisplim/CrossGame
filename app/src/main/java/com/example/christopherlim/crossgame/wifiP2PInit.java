@@ -42,7 +42,6 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
     private WiFiDirectServicesList deviceList;
     //private UserConnectionList userList;
-    private UserDBHelper userdb;
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
     private DBHelper mydb;
     private String gender;
@@ -291,7 +290,6 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                                                 + instanceName);
                                         //add user name and id to Connected database
                                         mydb.insertContact(null, temp_connection.getName(), null, null, null, null, null, temp_connection.getId(), 1);
-
                                     }
                                 }
                             }

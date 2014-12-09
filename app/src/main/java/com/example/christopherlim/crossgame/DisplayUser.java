@@ -43,7 +43,6 @@ public class DisplayUser extends Activity {
         tagline = (TextView) findViewById(R.id.editTextTagLine2);
 
         mydb = new DBHelper(this);
-
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
         {
@@ -86,6 +85,7 @@ public class DisplayUser extends Activity {
                 age.setText((CharSequence)ag);
                 age.setFocusable(false);
                 age.setClickable(false);
+
                 //change
                 radioSexGroup.setFocusable(false);
                 radioSexGroup.setClickable(false);
@@ -93,29 +93,18 @@ public class DisplayUser extends Activity {
                 radioOrientationGroup.setFocusable(false);
                 radioOrientationGroup.setClickable(false);
 
-                gender.setText((CharSequence) gende);
-                gender.setFocusable(false);
-                gender.setClickable(false);
 
-                orientation.setText((CharSequence) orientatio);
-                orientation.setFocusable(false);
-                orientation.setClickable(false);
+               /*radioSexGroup.setFocusable(false);
+                radioSexGroup.setClickable(false);
 
-                phonenumber.setText((CharSequence) phonenumbe);
-                phonenumber.setFocusable(false);
-                phonenumber.setClickable(false);
-
-                tagline.setText((CharSequence)taglin);
-                tagline.setFocusable(false);
-                tagline.setClickable(false);
-                */
+                radioOrientationGroup.setFocusable(false);
+                radioOrientationGroup.setClickable(false);*/
             }
         }
 
         //addListenerOnButton_g();
        // addListenerOnButton_o();
     }
-
 
 
     @Override
