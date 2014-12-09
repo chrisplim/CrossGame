@@ -20,15 +20,28 @@
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:text="@string/button_connect"
+             android:layout_gravity="top"
              android:onClick="startConnect" />
 
-        <!-- <Button
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/ic_launcher">
+
+        <Button
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/button_input"
-            android:onClick="startInput" /> -->
+            android:layout_gravity="bottom"
+            android:text="@string/connected_user_list"
+            android:onClick="startConnectedList" />
 
-    </LinearLayout>
+        </LinearLayout>
 
 </RelativeLayout>

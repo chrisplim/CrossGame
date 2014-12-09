@@ -8,14 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class InfoInput extends Activity {
-    //public final static String EXTRA_MESSAGE = "com.example.AddressBook.MESSAGE";
+
+public class ConnectedList extends Activity {
 
     private ListView obj;
     DBHelper mydb;
@@ -23,19 +22,19 @@ public class InfoInput extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_input);
+        setContentView(R.layout.activity_connected_list);
 
         mydb = new DBHelper(this);
-        ArrayList array_list = mydb.getAllContacts(0);
+        ArrayList array_list = mydb.getAllContacts(1);
 
         ArrayAdapter arrayAdapter =
                 new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
 
         //adding it to the list view.
-        obj = (ListView)findViewById(R.id.listView1);
+        obj = (ListView)findViewById(R.id.listView2);
         obj.setAdapter(arrayAdapter);
 
-        obj.setOnItemClickListener(new OnItemClickListener(){
+        obj.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -44,9 +43,10 @@ public class InfoInput extends Activity {
                 int id_To_Search = arg2 + 1;
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt("id", id_To_Search);
-                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.DisplayContact.class);
+                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.DisplayUser.class);
                 intent.putExtras(dataBundle);
                 startActivity(intent);
+                //start pull down RDS info activity
             }
         });
     }
@@ -62,13 +62,6 @@ public class InfoInput extends Activity {
         super.onOptionsItemSelected(item);
         switch(item.getItemId())
         {
-            case R.id.item1:
-                Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id", 0);
-                Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.DisplayContact.class);
-                intent.putExtras(dataBundle);
-                startActivity(intent);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -81,5 +74,4 @@ public class InfoInput extends Activity {
         }
         return super.onKeyDown(keycode, event);
     }
-
 }
