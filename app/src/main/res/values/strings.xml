@@ -42,6 +42,6 @@
     <string name="radio_female2">female</string>
     <string name="title_activity_connected_list">connected_list</string>
     <string name="title_activity_display_user">DisplayUser</string>
-    <string name="connected_user_list">See Your Connections' Profiles</string>
+    <string name="connected_user_list">See Your Connections\' Profiles</string>
 
 </resources>

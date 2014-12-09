@@ -1,10 +1,8 @@
 package com.example.christopherlim.crossgame;
 
-import java.util.ArrayList;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class InfoInput extends Activity {
     //public final static String EXTRA_MESSAGE = "com.example.AddressBook.MESSAGE";
@@ -26,7 +26,7 @@ public class InfoInput extends Activity {
         setContentView(R.layout.activity_info_input);
 
         mydb = new DBHelper(this);
-        ArrayList array_list = mydb.getAllContacts();
+        ArrayList array_list = mydb.getAllContacts(0);
 
         ArrayAdapter arrayAdapter =
                 new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);

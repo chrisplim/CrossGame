@@ -56,14 +56,14 @@ public class DisplayContact extends Activity{
                 Settings.Secure.ANDROID_ID);
 
         mydb = new DBHelper(this);
-        myRDS = new RDSHelper(this);
+        myRDS = new RDSHelper(this, null, null, null, null, null, null, null, null, 1);
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
         {
             int Value = extras.getInt("id");
             if(Value>0){
                 //means this is the view part not the add contact part.
-                Cursor rs = mydb.getData(Value);
+                Cursor rs = mydb.getData(Value, 0);
                 id_To_Update = Value;
                 rs.moveToFirst();
                 String lastnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_LASTNAME));
@@ -207,7 +207,7 @@ public class DisplayContact extends Activity{
                 builder.setMessage(R.string.deleteContact)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                mydb.deleteContact(id_To_Update);
+                                mydb.deleteContact(id_To_Update, 0);
                                 Toast.makeText(getApplicationContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.InfoInput.class);
                                 startActivity(intent);
@@ -254,15 +254,14 @@ public class DisplayContact extends Activity{
                 String tempOldTagLine = mydb.getTagLine();
 
 
-                //if (myRDS.updateUser(tempOldLastName, tempOldFirstName, tempOldAge, tempOldGender, tempOldOrientation, tempOldPhoneNumber, tempOldTagLine, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)
-                        //&& mydb.updateContact(id_To_Update, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
+                //if (mydb.updateContact(id_To_Update, tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
 
                     //Toast.makeText(getApplicationContext(), "User Updated", Toast.LENGTH_SHORT).show();
 
                     //Intent intent = new Intent(getApplicationContext(),com.example.christopherlim.crossgame.StartConnect.class);
                     //startActivity(intent);
 
-                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString(), android_id)){
+                if(mydb.updateContact(id_To_Update, lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString(), android_id, 0)){
                     Toast.makeText(getApplicationContext(), "User Successfully updated", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -274,37 +273,11 @@ public class DisplayContact extends Activity{
 
             }
             else{
-                /*
-                if (myRDS.insertUser(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)
-                        && mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
 
-                    Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_SHORT).show();
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_SHORT).show();
-                    Log.d("inserting user", myRDS.getErrorMessage());
-
-
-                if(mydb.insertContact(lastname.getText().toString(), firstname.getText().toString(), age.getText().toString(), gender, orientation, phonenumber.getText().toString(), tagline.getText().toString(), android_id)){
-                    Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
-                }
-                */
                 //new RDSHelper(this).execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine);
-                myRDS.execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine);
-                //Log.d("Display Contact ", myRDS.getOutputMessage());
-                //if(myRDS.didRequestSucceed()){
-                //   Log.d("Display Contact: ", "passed rds insertion");
-                //   Toast.makeText(getApplicationContext(), "Passed RDS insertion", Toast.LENGTH_SHORT).show();
-                //   if(mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine)){
-                //        Log.d("Display Contact: ", "successfully inserted user");
-                //        Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_LONG).show();
-                //    }
-                //} else {
-                //    Toast.makeText(getApplicationContext(), "User Insert Failed", Toast.LENGTH_LONG).show();
-                //    Log.d("inserting user", myRDS.getErrorMessage());
-                //}
-                if(mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine, android_id)){
+                myRDS.execute(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine, android_id);
+
+                if(mydb.insertContact(tempLastName, tempFirstName, tempAge, gender, orientation, tempPhoneNumber, tempTagLine, android_id, 0)){
                     Log.d("Display Contact: ", "successfully inserted user");
                     Toast.makeText(getApplicationContext(), "User Inserted", Toast.LENGTH_LONG).show();
                 } else {

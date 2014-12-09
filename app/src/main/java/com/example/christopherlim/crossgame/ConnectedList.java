@@ -17,15 +17,15 @@ import java.util.ArrayList;
 public class ConnectedList extends Activity {
 
     private ListView obj;
-    UserDBHelper mydb;
+    DBHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connected_list);
 
-        mydb = new UserDBHelper(this);
-        ArrayList array_list = mydb.getAllContacts();
+        mydb = new DBHelper(this);
+        ArrayList array_list = mydb.getAllContacts(1);
 
         ArrayAdapter arrayAdapter =
                 new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);

@@ -44,8 +44,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
     //private UserConnectionList userList;
     private UserDBHelper userdb;
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
-    private DBHelper mydb1;
-    private UserDBHelper mydb2;
+    private DBHelper mydb;
     private String gender;
     private String orientation;
     private String name;
@@ -214,8 +213,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
 
     private void startRegistrationAndDiscovery() {
         Log.d(TAG, "in startRegistrationAndDiscovery");
-        mydb1 = new DBHelper(this);
-        mydb2 = new UserDBHelper(this);
+        mydb = new DBHelper(this);
         //ArrayList contacts = mydb.getAllContacts();
         Map<String, String> ourRecord = new HashMap<String, String>();
         //Bundle extras = getIntent().getExtras();
@@ -224,7 +222,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
            //if(Value > 0) {
                 //String name = db.sqlexec(getname);
                 ourRecord.put("available", "visible");
-               Cursor res = mydb1.getData(1);
+               Cursor res = mydb.getData(1,0);
                 res.moveToFirst();
                 gender = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
                 orientation = res.getString(res.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
@@ -292,7 +290,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                                         Log.d(TAG, "onBonjourServiceAvailable "
                                                 + instanceName);
                                         //add user name and id to Connected database
-                                        mydb2.insertUser(temp_connection.getId(), temp_connection.getName());
+                                        mydb.insertContact(null, temp_connection.getName(), null, null, null, null, null, temp_connection.getId(), 1);
 
                                     }
                                 }

@@ -5,14 +5,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 
 public class DisplayUser extends Activity {
 
-    private UserDBHelper mydb ;
+    private DBHelper mydb ;
     TextView lastname ;
     TextView firstname ;
     TextView age ;
@@ -44,7 +42,7 @@ public class DisplayUser extends Activity {
         phonenumber = (TextView) findViewById(R.id.editTextPhoneNumber2);
         tagline = (TextView) findViewById(R.id.editTextTagLine2);
 
-        mydb = new UserDBHelper(this);
+        mydb = new DBHelper(this);
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null)
@@ -52,26 +50,28 @@ public class DisplayUser extends Activity {
             int Value = extras.getInt("id");
             if(Value>0){
                 //means this is the view part not the add contact part.
-                Cursor rs = mydb.getData(Value);
+                Cursor rs = mydb.getData(Value, 1);
                 id_To_Update = Value;
                 rs.moveToFirst();   //do we need this?
                 //change this to retrieve from RDS server
                 //use these strings for RDS lookup
-                deviceid = rs.getString(rs.getColumnIndex(UserDBHelper.USERS_COLUMN_DEVICEID));
-                name = rs.getString(rs.getColumnIndex(UserDBHelper.USERS_COLUMN_NAME));
+                deviceid = rs.getString(rs.getColumnIndex(DBHelper.USERS_COLUMN_DEVICEID));
+
+                new RDSHelper(this, lastname, firstname, age, gender, orientation, phonenumber, tagline, deviceid, 0).execute();
                 //change below to update from RDS
-                String lastnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_LASTNAME));
-                String firstnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_FIRSTNAME));
-                String ag = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_AGE));
-                String gende = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
-                String orientatio = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
-                String phonenumbe = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_PHONENUMBER));
-                String taglin = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_TAGLINE));
+                //String lastnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_LASTNAME));
+                //String firstnam = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_FIRSTNAME));
+                //String ag = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_AGE));
+                //String gende = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_GENDER));
+                //String orientatio = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_ORIENTATION));
+                //String phonenumbe = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_PHONENUMBER));
+                //String taglin = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_TAGLINE));
 
                 if (!rs.isClosed())
                 {
                     rs.close();
                 }
+                /*
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.INVISIBLE);
 
@@ -87,11 +87,11 @@ public class DisplayUser extends Activity {
                 age.setFocusable(false);
                 age.setClickable(false);
                 //change
-               /*radioSexGroup.setFocusable(false);
+                radioSexGroup.setFocusable(false);
                 radioSexGroup.setClickable(false);
 
                 radioOrientationGroup.setFocusable(false);
-                radioOrientationGroup.setClickable(false);*/
+                radioOrientationGroup.setClickable(false);
 
                 gender.setText((CharSequence) gende);
                 gender.setFocusable(false);
@@ -108,6 +108,7 @@ public class DisplayUser extends Activity {
                 tagline.setText((CharSequence)taglin);
                 tagline.setFocusable(false);
                 tagline.setClickable(false);
+                */
             }
         }
 
@@ -115,39 +116,7 @@ public class DisplayUser extends Activity {
        // addListenerOnButton_o();
     }
 
-   /* public void addListenerOnButton_g() {
 
-        //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
-        int selectedId = radioSexGroup.getCheckedRadioButtonId();
-        radioSexButton = (RadioButton) findViewById(selectedId);
-        gender = (String) radioSexButton.getText();
-        radioSexGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                radioSexButton = (RadioButton) findViewById(checkedId);
-                gender = (String) radioSexButton.getText();
-            }
-        });
-    }
-
-    public void addListenerOnButton_o() {
-
-        //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
-        int selectedId = radioOrientationGroup.getCheckedRadioButtonId();
-        radioOrientationButton = (RadioButton) findViewById(selectedId);
-        orientation = (String) radioOrientationButton.getText();
-        radioOrientationGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // checkedId is the RadioButton selected
-                radioOrientationButton = (RadioButton) findViewById(checkedId);
-                orientation = (String) radioOrientationButton.getText();
-            }
-        });
-    } */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
