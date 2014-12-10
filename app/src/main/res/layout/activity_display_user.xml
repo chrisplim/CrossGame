@@ -22,6 +22,7 @@
             android:layout_alignLeft="@+id/editTextPhoneNumber2"
             android:layout_marginTop="5dp"
             android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             >
 
         </TextView>
@@ -33,6 +34,7 @@
             android:layout_alignLeft="@+id/editTextLastName2"
             android:layout_marginTop="5dp"
             android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             >
         </TextView>
 
@@ -43,7 +45,7 @@
             android:layout_alignBottom="@+id/editTextLastName2"
             android:layout_alignLeft="@+id/textOrientation2"
             android:text="@string/lastname"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/textFirstName2"
@@ -52,18 +54,7 @@
             android:layout_alignBottom="@+id/editTextFirstName2"
             android:layout_alignLeft="@+id/textOrientation2"
             android:text="@string/firstname"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-       <!-- <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editTextPhoneNumber"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/editTextTagLine"
-            android:layout_marginBottom="28dp"
-            android:onClick="run"
-            android:text="@string/save" /> -->
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/textOrientation2"
@@ -73,7 +64,7 @@
             android:layout_alignParentLeft="true"
 
             android:text="@string/orientation"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/textAge2"
@@ -82,7 +73,7 @@
             android:layout_alignBottom="@+id/editTextAge2"
             android:layout_alignLeft="@+id/textLastName2"
             android:text="@string/age"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/textGender2"
@@ -92,7 +83,7 @@
             android:layout_alignBottom="@+id/editTextGender2"
             android:layout_alignLeft="@+id/textAge2"
             android:text="@string/gender"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/editTextGender2"
@@ -102,56 +93,8 @@
             android:layout_below="@+id/editTextAge2"
             android:layout_marginTop="5dp"
             android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
-
-       <!-- <RadioGroup
-            android:id="@+id/radioSex"
-            android:layout_width="wrap_content"
-            android:layout_alignLeft="@+id/editTextLastName"
-            android:layout_below="@+id/editTextAge"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content" >
-
-
-            <RadioButton
-                android:id="@+id/radioMale1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_male1"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/radioFemale1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/radioMale1"
-                android:layout_alignParentLeft="true"
-                android:text="@string/radio_female1" />
-
-        </RadioGroup>
-
-        <RadioGroup
-            android:id="@+id/radioOrientation"
-            android:layout_width="wrap_content"
-            android:layout_alignLeft="@+id/editTextLastName"
-            android:layout_below="@+id/radioSex"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content" >
-
-            <RadioButton
-                android:id="@+id/radioMale2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_male2"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/radioFemale2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radio_female2" />
-
-        </RadioGroup> -->
 
         <TextView
             android:id="@+id/editTextAge2"
@@ -160,6 +103,7 @@
             android:layout_alignLeft="@+id/editTextGender2"
             android:layout_below="@+id/editTextLastName2"
             android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
         <TextView
@@ -169,6 +113,7 @@
             android:layout_alignLeft="@+id/editTextGender2"
             android:layout_below="@+id/editTextGender2"
             android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
         <TextView
@@ -180,6 +125,7 @@
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
         <TextView
@@ -191,6 +137,7 @@
             android:layout_marginTop="22dp"
             android:layout_marginLeft="100dp"
             android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
         <TextView
@@ -201,7 +148,7 @@
             android:layout_alignParentLeft="true"
 
             android:text="@string/phonenumber"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
         <TextView
@@ -210,9 +157,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/editTextTagLine2"
             android:layout_alignParentLeft="true"
-
             android:text="@string/tagline"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </RelativeLayout>
 </ScrollView>
