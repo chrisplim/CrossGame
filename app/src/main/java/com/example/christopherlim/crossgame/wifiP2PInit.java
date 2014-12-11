@@ -278,6 +278,7 @@ public class wifiP2PInit extends HomeScreen implements WiFiDirectServicesList.De
                                         .getListAdapter());
                                 Log.d(TAG, "inside discoverService after making adapter");
                                 //adapter.clear();, filter by global hashmap
+                                //add some code here to check if contact is in database?
                                 Connection temp_connection = connections.get(srcDevice.deviceAddress);
                                 if(!adapter.contains(srcDevice) && temp_connection != null) {
                                    if(temp_connection.getGender().equals(orientation) && temp_connection.getOrientation().equals(gender)) {
